@@ -1,0 +1,421 @@
+test line 1
+test line 2
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>変化盲チャレンジ｜あなたの目はどこまで見えてる？</title>
+<meta name="description" content="変化盲（Change Blindness）を体験できるミニゲーム。あなたは画像の変化に気づけるか？｜ムーンショット目標9「こころ」若手の会">
+<meta property="og:title" content="変化盲チャレンジ｜あなたの目はどこまで見えてる？">
+<meta property="og:description" content="認知科学の不思議を体験！画像の変化、あなたは見つけられる？">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a1a;--surface:#14142b;--card:#1e1e3a;--primary:#ff6b9d;--secondary:#c084fc;--accent:#22d3ee;--warning:#fbbf24;--text:#f0f0ff;--text-dim:#8888aa;--radius:16px;--glow-primary:0 0 30px rgba(255,107,157,0.3);--glow-accent:0 0 30px rgba(34,211,238,0.3)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Zen Maru Gothic','M PLUS Rounded 1c',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(255,107,157,0.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(192,132,252,0.08) 0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(34,211,238,0.05) 0%,transparent 60%);pointer-events:none;z-index:0}
+.container{max-width:680px;margin:0 auto;padding:20px;position:relative;z-index:1}
+.header{text-align:center;padding:20px 0 10px}
+.header-badge{display:inline-block;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:0.05em;margin-bottom:8px}
+.header h1{font-family:'M PLUS Rounded 1c',sans-serif;font-size:clamp(1.6rem,5vw,2.2rem);font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3}
+.header p{color:var(--text-dim);font-size:14px;margin-top:6px}
+.screen{display:none}.screen.active{display:block;animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.start-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;text-align:center;border:1px solid rgba(255,255,255,0.06);margin-top:16px}
+.start-card .emoji-hero{font-size:56px;margin-bottom:12px}
+.start-card h2{font-size:20px;font-weight:900;margin-bottom:10px}
+.start-card p{color:var(--text-dim);font-size:14px;line-height:1.7;margin-bottom:20px}
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.rule-item{background:rgba(255,255,255,0.03);border-radius:12px;padding:14px 10px;text-align:center}
+.rule-item .rule-icon{font-size:24px;margin-bottom:6px}
+.rule-item .rule-text{font-size:12px;color:var(--text-dim);line-height:1.5}
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;border:none;padding:14px 40px;border-radius:50px;font-family:inherit;font-size:16px;font-weight:900;cursor:pointer;transition:all 0.2s;box-shadow:var(--glow-primary)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(255,107,157,0.5)}
+.btn-primary:active{transform:translateY(0)}
+.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.08);color:var(--text);border:1px solid rgba(255,255,255,0.1);padding:12px 28px;border-radius:50px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.btn-secondary:hover{background:rgba(255,255,255,0.12);transform:translateY(-1px)}
+.game-hud{display:flex;justify-content:space-between;align-items:center;padding:12px 0;margin-bottom:10px}
+.hud-item{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700}
+.hud-item .hud-icon{font-size:18px}
+.round-dots{display:flex;gap:6px}
+.round-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all 0.3s}
+.round-dot.done{background:var(--accent);box-shadow:0 0 8px rgba(34,211,238,0.5)}
+.round-dot.current{background:var(--primary);box-shadow:0 0 8px rgba(255,107,157,0.5);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+.game-canvas-wrapper{position:relative;background:var(--card);border-radius:var(--radius);overflow:hidden;border:2px solid rgba(255,255,255,0.08);aspect-ratio:4/3;cursor:crosshair}
+.game-canvas-wrapper canvas{width:100%;height:100%;display:block}
+.timer-bar{position:absolute;bottom:0;left:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--primary));transition:width 0.1s linear;border-radius:0 2px 0 0}
+.hint-text{text-align:center;color:var(--text-dim);font-size:13px;margin-top:10px;min-height:20px}
+.flicker-overlay{position:absolute;inset:0;background:#888;opacity:0;pointer-events:none;z-index:2}
+.found-ring{position:absolute;border:3px solid var(--accent);border-radius:50%;pointer-events:none;z-index:3;animation:ringExpand 0.6s ease forwards}
+@keyframes ringExpand{0%{transform:translate(-50%,-50%) scale(0.5);opacity:1}100%{transform:translate(-50%,-50%) scale(1.5);opacity:0}}
+.round-result-card{background:var(--card);border-radius:var(--radius);padding:28px 24px;text-align:center;border:1px solid rgba(255,255,255,0.06);margin-top:16px}
+.round-result-card .result-emoji{font-size:48px;margin-bottom:8px}
+.round-result-card h3{font-size:20px;font-weight:900;margin-bottom:4px}
+.result-time{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:8px 0}
+.trivia-box{background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.15);border-radius:12px;padding:16px;margin:16px 0;text-align:left}
+.trivia-box .trivia-label{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
+.trivia-box .trivia-text{font-size:13px;color:var(--text);line-height:1.7}
+.final-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;text-align:center;border:1px solid rgba(255,255,255,0.06);margin-top:16px}
+.final-score{font-size:48px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:8px 0}
+.rank-badge{display:inline-block;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:700;margin:8px 0 16px}
+.rank-s{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1a2e}
+.rank-a{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white}
+.rank-b{background:linear-gradient(135deg,var(--accent),#06b6d4);color:#1a1a2e}
+.rank-c{background:rgba(255,255,255,0.12);color:var(--text-dim)}
+.score-breakdown{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:16px 0}
+.score-round{background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 4px;font-size:11px}
+.score-round .sr-label{color:var(--text-dim);margin-bottom:4px}
+.score-round .sr-time{font-weight:900;font-size:14px}
+.btn-group{display:flex;flex-direction:column;gap:10px;margin-top:20px;align-items:center}
+.btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#1da1f2;color:white;border:none;padding:14px 32px;border-radius:50px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;max-width:300px}
+.btn-share:hover{background:#1a8cd8;transform:translateY(-2px)}
+.footer{text-align:center;padding:24px 0;color:var(--text-dim);font-size:11px;line-height:1.7}
+.footer a{color:var(--secondary);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-dim);text-decoration:none;font-size:13px;font-weight:700;margin-bottom:8px;transition:color 0.2s}
+.back-link:hover{color:var(--text)}
+@media(max-width:480px){.container{padding:12px}.rules-grid{grid-template-columns:1fr}.score-breakdown{grid-template-columns:repeat(5,1fr);gap:4px}.score-round .sr-time{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back-link">← トップに戻る</a>
+<div class="header">
+<div class="header-badge">🧠 ムーンショット目標9「こころ」若手の会</div>
+<h1>変化盲チャレンジ</h1>
+<p>あなたの目は、どこまで見えてる？</p>
+</div>
+<div id="screen-start" class="screen active">
+<div class="start-card">
+<div class="emoji-hero">👁️‍🗨️</div>
+<h2>ルール</h2>
+<p>画面がチカチカ切り替わります。<br>その中に隠れた「変化」を見つけてタップ！</p>
+<div class="rules-grid">
+<div class="rule-item"><div class="rule-icon">🔄</div><div class="rule-text">2つの画像が<br>交互に切り替わる</div></div>
+<div class="rule-item"><div class="rule-icon">👆</div><div class="rule-text">変化した場所を<br>タップで回答</div></div>
+<div class="rule-item"><div class="rule-icon">⏱️</div><div class="rule-text">見つけるまでの<br>タイムを計測</div></div>
+<div class="rule-item"><div class="rule-icon">🏆</div><div class="rule-text">全5ラウンドの<br>合計で診断</div></div>
+</div>
+<button class="btn-primary" onclick="startGame()">チャレンジ開始 ▶</button>
+</div>
+</div>
+<div id="screen-game" class="screen">
+<div class="game-hud">
+<div class="hud-item"><span class="hud-icon">⏱️</span><span id="hud-timer">0.0秒</span></div>
+<div class="round-dots" id="round-dots"></div>
+<div class="hud-item"><span id="hud-round">1/5</span></div>
+</div>
+<div class="game-canvas-wrapper" id="canvas-wrapper">
+<canvas id="game-canvas"></canvas>
+<div class="flicker-overlay" id="flicker-overlay"></div>
+<div class="timer-bar" id="timer-bar"></div>
+</div>
+<div class="hint-text" id="hint-text">どこかが変わっています…見つけてタップ！</div>
+</div>
+<div id="screen-round-result" class="screen">
+<div class="round-result-card">
+<div class="result-emoji" id="rr-emoji">🎉</div>
+<h3 id="rr-title">見つけた！</h3>
+<div class="result-time" id="rr-time">3.2秒</div>
+<div class="trivia-box"><div class="trivia-label">🧠 豆知識</div><div class="trivia-text" id="rr-trivia"></div></div>
+<button class="btn-primary" id="rr-next-btn" onclick="nextRound()">次のラウンドへ ▶</button>
+</div>
+</div>
+<div id="screen-final" class="screen">
+<div class="final-card">
+<div style="font-size:48px;margin-bottom:4px">🏆</div>
+<h2>結果発表</h2>
+<div class="final-score" id="final-total"></div>
+<div id="final-rank-badge" class="rank-badge rank-a"></div>
+<p id="final-comment" style="color:var(--text-dim);font-size:14px;margin-bottom:12px"></p>
+<div class="score-breakdown" id="score-breakdown"></div>
+<div class="trivia-box" style="margin-top:16px">
+<div class="trivia-label">🔬 変化盲とは？</div>
+<div class="trivia-text">変化盲（Change Blindness）は、視覚的なシーンの中で起きた大きな変化に気づかない現象です。私たちは「自分は世界をちゃんと見ている」と思い込んでいますが、実は脳が処理できる情報はごくわずか。注意を向けていない場所の変化は、驚くほど見落とします。この現象は1990年代にRensinkらの研究で広く知られるようになりました。</div>
+</div>
+<div class="btn-group">
+<button class="btn-share" onclick="shareResult()">𝕏 で結果をシェア</button>
+<button class="btn-primary" onclick="restartGame()">もう一度チャレンジ 🔄</button>
+<button class="btn-secondary" onclick="showScreen('screen-start')">トップに戻る</button>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>🧠 ムーンショット目標9「こころの安らぎや活力を増大するための研究開発」若手の会</p>
+<p style="margin-top:4px">変化盲の科学をもっと知りたい方は → <a href="https://en.wikipedia.org/wiki/Change_blindness" target="_blank">Change Blindness (Wikipedia)</a></p>
+</div>
+</div>
+<script>
+var TOTAL_ROUNDS=5,MAX_TIME=30,FLICKER_ON=800,FLICKER_OFF=150;
+var currentRound=0,roundTimes=[],timerStart=0,timerInterval=null,flickerInterval=null;
+var showingOriginal=true,sceneData=null,canClick=false,canvas,ctx,canvasW,canvasH;
+var COLORS={red:'#ef4444',blue:'#3b82f6',green:'#22c55e',yellow:'#eab308',purple:'#a855f7',orange:'#f97316',pink:'#ec4899',cyan:'#06b6d4',lime:'#84cc16',amber:'#f59e0b',indigo:'#6366f1',rose:'#f43f5e',teal:'#14b8a6',sky:'#0ea5e9'};
+var COLOR_NAMES=Object.keys(COLORS);
+function randomColor(e){return(c=COLOR_NAMES.filter(function(c){return c!==e}))[Math.floor(Math.random()*c.length)]}
+function rand(a,b){return Math.random()*(b-a)+a}
+function randInt(a,b){return Math.floor(rand(a,b+1))}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+var sceneGenerators=[generateLivingRoom,generateGarden,generateAquarium,generateSkyScene,generateDesktop,generateKitchen,generatePark,generateSpace];
+
+function generateLivingRoom(){
+var o=[];
+o.push({type:'rect',x:0,y:canvasH*0.65,w:canvasW,h:canvasH*0.35,color:'#8B7355',changeable:false});
+o.push({type:'rect',x:0,y:0,w:canvasW,h:canvasH*0.65,color:'#FFF8DC',changeable:false});
+o.push({type:'rect',x:canvasW*0.6,y:canvasH*0.08,w:canvasW*0.3,h:canvasH*0.35,color:'#87CEEB',changeable:false,stroke:'#A0522D',lineWidth:4});
+o.push({type:'line',x1:canvasW*0.75,y1:canvasH*0.08,x2:canvasW*0.75,y2:canvasH*0.43,color:'#A0522D',lineWidth:3,changeable:false});
+o.push({type:'line',x1:canvasW*0.6,y1:canvasH*0.255,x2:canvasW*0.9,y2:canvasH*0.255,color:'#A0522D',lineWidth:3,changeable:false});
+var sc=pick(COLOR_NAMES);
+o.push({type:'roundRect',x:canvasW*0.05,y:canvasH*0.5,w:canvasW*0.45,h:canvasH*0.2,r:12,color:COLORS[sc],changeable:true,label:'ソファ',colorName:sc});
+o.push({type:'roundRect',x:canvasW*0.05,y:canvasH*0.42,w:canvasW*0.45,h:canvasH*0.12,r:12,color:COLORS[sc],changeable:false});
+o.push({type:'roundRect',x:canvasW*0.15,y:canvasH*0.68,w:canvasW*0.3,h:canvasH*0.08,r:6,color:'#A0522D',changeable:false});
+o.push({type:'rect',x:canvasW*0.18,y:canvasH*0.76,w:6,h:canvasH*0.1,color:'#8B4513',changeable:false});
+o.push({type:'rect',x:canvasW*0.41,y:canvasH*0.76,w:6,h:canvasH*0.1,color:'#8B4513',changeable:false});
+var lc=pick(COLOR_NAMES);
+o.push({type:'circle',x:canvasW*0.55,y:canvasH*0.55,radius:18,color:COLORS[lc],changeable:true,label:'ランプ',colorName:lc});
+o.push({type:'rect',x:canvasW*0.545,y:canvasH*0.58,w:8,h:canvasH*0.28,color:'#555',changeable:false});
+for(var i=0;i<3;i++){var bc=pick(COLOR_NAMES);o.push({type:'rect',x:canvasW*0.22+i*22,y:canvasH*0.64,w:16,h:canvasH*0.05,color:COLORS[bc],changeable:true,label:'本',colorName:bc})}
+var fc=pick(COLOR_NAMES);
+o.push({type:'rect',x:canvasW*0.15,y:canvasH*0.1,w:canvasW*0.2,h:canvasH*0.2,color:COLORS[fc],changeable:true,label:'絵',colorName:fc,stroke:'#8B4513',lineWidth:3});
+var pc=pick(COLOR_NAMES);
+o.push({type:'circle',x:canvasW*0.88,y:canvasH*0.72,radius:22,color:'#228B22',changeable:false});
+o.push({type:'rect',x:canvasW*0.855,y:canvasH*0.74,w:40,h:35,color:COLORS[pc],changeable:true,label:'植木鉢',colorName:pc});
+var cc=pick(['orange','amber','rose','purple','sky']);
+o.push({type:'circle',x:canvasW*0.35,y:canvasH*0.48,radius:16,color:COLORS[cc],changeable:true,label:'猫',colorName:cc});
+o.push({type:'triangle',x:canvasW*0.335,y:canvasH*0.44,size:8,color:COLORS[cc],changeable:false});
+o.push({type:'triangle',x:canvasW*0.365,y:canvasH*0.44,size:8,color:COLORS[cc],changeable:false});
+return selectChangeTarget(o);
+}
+function generateGarden(){
+var o=[];
+o.push({type:'rect',x:0,y:0,w:canvasW,h:canvasH*0.55,color:'#87CEEB',changeable:false});
+o.push({type:'rect',x:0,y:canvasH*0.55,w:canvasW,h:canvasH*0.45,color:'#4ade80',changeable:false});
+var sc=pick(['yellow','amber','orange']);
+o.push({type:'circle',x:canvasW*0.85,y:canvasH*0.12,radius:35,color:COLORS[sc],changeable:true,label:'太陽',colorName:sc});
+for(var i=0;i<3;i++){o.push({type:'cloud',x:canvasW*(0.1+i*0.3),y:canvasH*(0.08+Math.random()*0.15),size:rand(30,50),color:'#ffffff',changeable:false})}
+for(var i=0;i<6;i++){var fc=pick(COLOR_NAMES);var fx=canvasW*(0.08+i*0.15+Math.random()*0.05);var fy=canvasH*(0.65+Math.random()*0.15);o.push({type:'rect',x:fx-2,y:fy-20,w:4,h:25,color:'#16a34a',changeable:false});o.push({type:'circle',x:fx,y:fy-24,radius:12,color:COLORS[fc],changeable:true,label:'花',colorName:fc})}
+o.push({type:'rect',x:canvasW*0.05,y:canvasH*0.25,w:25,h:canvasH*0.32,color:'#8B4513',changeable:false});
+var tc=pick(['green','lime','teal']);
+o.push({type:'circle',x:canvasW*0.08,y:canvasH*0.2,radius:50,color:COLORS[tc],changeable:true,label:'木',colorName:tc});
+var bf=pick(COLOR_NAMES);
+o.push({type:'circle',x:canvasW*0.55,y:canvasH*0.4,radius:10,color:COLORS[bf],changeable:true,label:'蝶',colorName:bf});
+for(var i=0;i<8;i++){o.push({type:'rect',x:canvasW*0.05+i*(canvasW*0.12),y:canvasH*0.52,w:8,h:canvasH*0.1,color:'#F5DEB3',changeable:false})}
+o.push({type:'rect',x:canvasW*0.03,y:canvasH*0.54,w:canvasW*0.94,h:5,color:'#F5DEB3',changeable:false});
+return selectChangeTarget(o);
+}
+function generateAquarium(){
+var o=[];
+o.push({type:'rect',x:0,y:0,w:canvasW,h:canvasH,color:'#1e3a5f',changeable:false});
+o.push({type:'rect',x:0,y:canvasH*0.82,w:canvasW,h:canvasH*0.18,color:'#deb887',changeable:false});
+for(var i=0;i<4;i++){var sw=pick(['green','lime','teal']);o.push({type:'rect',x:canvasW*(0.1+i*0.25),y:canvasH*0.55,w:12,h:canvasH*0.3,color:COLORS[sw],changeable:true,label:'海藻',colorName:sw})}
+for(var i=0;i<5;i++){var fc=pick(COLOR_NAMES);var fx=canvasW*(0.1+Math.random()*0.8);var fy=canvasH*(0.1+Math.random()*0.55);o.push({type:'fish',x:fx,y:fy,size:rand(18,30),color:COLORS[fc],changeable:true,label:'魚',colorName:fc})}
+for(var i=0;i<6;i++){o.push({type:'circle',x:canvasW*Math.random(),y:canvasH*(0.05+Math.random()*0.6),radius:rand(4,10),color:'rgba(255,255,255,0.25)',changeable:false})}
+var ch=pick(['amber','orange','yellow']);
+o.push({type:'roundRect',x:canvasW*0.65,y:canvasH*0.76,w:45,h:30,r:5,color:COLORS[ch],changeable:true,label:'宝箱',colorName:ch});
+var sf=pick(['red','rose','pink','orange']);
+o.push({type:'star',x:canvasW*0.25,y:canvasH*0.85,size:16,color:COLORS[sf],changeable:true,label:'ヒトデ',colorName:sf});
+return selectChangeTarget(o);
+}
+function generateSkyScene(){
+var o=[];
+o.push({type:'rect',x:0,y:0,w:canvasW,h:canvasH,color:'#0f172a',changeable:false});
+for(var i=0;i<25;i++){var sc=pick(['yellow','amber','sky']);o.push({type:'circle',x:Math.random()*canvasW,y:Math.random()*canvasH*0.7,radius:rand(1.5,4),color:COLORS[sc],changeable:i<5,label:'星',colorName:sc})}
+var mc=pick(['yellow','amber']);
+o.push({type:'circle',x:canvasW*0.78,y:canvasH*0.15,radius:40,color:COLORS[mc],changeable:true,label:'月',colorName:mc});
+o.push({type:'triangle',x:canvasW*0.2,y:canvasH*0.6,size:120,color:'#334155',changeable:false});
+o.push({type:'triangle',x:canvasW*0.55,y:canvasH*0.55,size:150,color:'#475569',changeable:false});
+o.push({type:'triangle',x:canvasW*0.85,y:canvasH*0.62,size:100,color:'#3f4f63',changeable:false});
+o.push({type:'rect',x:0,y:canvasH*0.78,w:canvasW,h:canvasH*0.22,color:'#1e293b',changeable:false});
+for(var i=0;i<3;i++){var hc=pick(COLOR_NAMES);var hx=canvasW*(0.1+i*0.3);o.push({type:'rect',x:hx,y:canvasH*0.7,w:50,h:45,color:COLORS[hc],changeable:true,label:'家',colorName:hc});o.push({type:'triangle',x:hx+25,y:canvasH*0.65,size:30,color:'#8B4513',changeable:false});var wc=pick(['yellow','amber','orange']);o.push({type:'rect',x:hx+15,y:canvasH*0.73,w:16,h:14,color:COLORS[wc],changeable:true,label:'窓の灯り',colorName:wc})}
+return selectChangeTarget(o);
+}
+function generateDesktop(){
+var o=[];
+o.push({type:'rect',x:0,y:0,w:canvasW,h:canvasH,color:'#5C4033',changeable:false});
+o.push({type:'roundRect',x:canvasW*0.1,y:canvasH*0.15,w:canvasW*0.8,h:canvasH*0.7,r:12,color:'#2d2d2d',changeable:false});
+var nb=pick(COLOR_NAMES);o.push({type:'roundRect',x:canvasW*0.15,y:canvasH*0.2,w:canvasW*0.3,h:canvasH*0.5,r:4,color:COLORS[nb],changeable:true,label:'ノート',colorName:nb});
+var pn=pick(COLOR_NAMES);o.push({type:'rect',x:canvasW*0.5,y:canvasH*0.3,w:8,h:canvasH*0.35,color:COLORS[pn],changeable:true,label:'ペン',colorName:pn});
+var mg=pick(COLOR_NAMES);o.push({type:'circle',x:canvasW*0.72,y:canvasH*0.35,radius:25,color:COLORS[mg],changeable:true,label:'マグカップ',colorName:mg});
+o.push({type:'circle',x:canvasW*0.72,y:canvasH*0.35,radius:17,color:'#4a2c17',changeable:false});
+for(var i=0;i<3;i++){var s=pick(COLOR_NAMES);o.push({type:'rect',x:canvasW*(0.6+i*0.1),y:canvasH*(0.55+i*0.05),w:40,h:40,color:COLORS[s],changeable:true,label:'付箋',colorName:s})}
+o.push({type:'roundRect',x:canvasW*0.15,y:canvasH*0.72,w:35,h:60,r:6,color:'#1a1a2e',changeable:false,stroke:'#555',lineWidth:2});
+for(var i=0;i<2;i++){var p=pick(COLOR_NAMES);o.push({type:'roundRect',x:canvasW*(0.43+i*0.06),y:canvasH*0.22,w:8,h:24,r:4,color:COLORS[p],changeable:true,label:'クリップ',colorName:p})}
+return selectChangeTarget(o);
+}
+function generateKitchen(){
+var o=[];
+o.push({type:'rect',x:0,y:0,w:canvasW,h:canvasH*0.5,color:'#FFF5E6',changeable:false});
+o.push({type:'rect',x:0,y:canvasH*0.5,w:canvasW,h:canvasH*0.5,color:'#D2B48C',changeable:false});
+o.push({type:'rect',x:0,y:canvasH*0.5,w:canvasW,h:6,color:'#A0522D',changeable:false});
+var fr=['red','green','yellow','orange'];
+for(var i=0;i<4;i++){o.push({type:'circle',x:canvasW*(0.15+i*0.08),y:canvasH*0.62,radius:15,color:COLORS[fr[i]],changeable:true,label:'果物',colorName:fr[i]})}
+o.push({type:'arc',x:canvasW*0.22,y:canvasH*0.65,radius:50,color:'#E8E8E8',changeable:false});
+for(var i=0;i<3;i++){var b=pick(COLOR_NAMES);o.push({type:'roundRect',x:canvasW*(0.55+i*0.1),y:canvasH*0.38,w:20,h:canvasH*0.14,r:4,color:COLORS[b],changeable:true,label:'ボトル',colorName:b})}
+var pl=pick(['sky','cyan','pink','rose']);
+o.push({type:'circle',x:canvasW*0.7,y:canvasH*0.68,radius:32,color:COLORS[pl],changeable:true,label:'皿',colorName:pl});
+o.push({type:'circle',x:canvasW*0.7,y:canvasH*0.68,radius:24,color:'#fff',changeable:false});
+var cl=pick(COLOR_NAMES);
+o.push({type:'circle',x:canvasW*0.3,y:canvasH*0.18,radius:28,color:COLORS[cl],changeable:true,label:'時計',colorName:cl,stroke:'#333',lineWidth:3});
+var pt=pick(COLOR_NAMES);
+o.push({type:'roundRect',x:canvasW*0.1,y:canvasH*0.75,w:55,h:35,r:4,color:COLORS[pt],changeable:true,label:'鍋',colorName:pt});
+return selectChangeTarget(o);
+}
+function generatePark(){
+var o=[];
+o.push({type:'rect',x:0,y:0,w:canvasW,h:canvasH*0.5,color:'#87CEEB',changeable:false});
+o.push({type:'rect',x:0,y:canvasH*0.5,w:canvasW,h:canvasH*0.5,color:'#66BB6A',changeable:false});
+o.push({type:'rect',x:canvasW*0.35,y:canvasH*0.5,w:canvasW*0.3,h:canvasH*0.5,color:'#C8AD7F',changeable:false});
+var bn=pick(COLOR_NAMES);o.push({type:'roundRect',x:canvasW*0.08,y:canvasH*0.6,w:70,h:20,r:4,color:COLORS[bn],changeable:true,label:'ベンチ',colorName:bn});
+for(var i=0;i<2;i++){var tc=pick(['green','lime','teal']);var tx=canvasW*(0.15+i*0.6);o.push({type:'rect',x:tx-8,y:canvasH*0.3,w:16,h:canvasH*0.22,color:'#8B4513',changeable:false});o.push({type:'circle',x:tx,y:canvasH*0.24,radius:45,color:COLORS[tc],changeable:true,label:'木',colorName:tc})}
+for(var i=0;i<3;i++){var bc=pick(COLOR_NAMES);o.push({type:'circle',x:canvasW*(0.5+i*0.08),y:canvasH*(0.12+i*0.04),radius:16,color:COLORS[bc],changeable:true,label:'風船',colorName:bc})}
+var dg=pick(['amber','orange','rose']);o.push({type:'circle',x:canvasW*0.6,y:canvasH*0.68,radius:14,color:COLORS[dg],changeable:true,label:'犬',colorName:dg});
+for(var i=0;i<2;i++){o.push({type:'cloud',x:canvasW*(0.2+i*0.5),y:canvasH*0.1,size:rand(30,45),color:'#ffffff',changeable:false})}
+var kt=pick(COLOR_NAMES);o.push({type:'rect',x:canvasW*0.42,y:canvasH*0.06,w:24,h:24,color:COLORS[kt],changeable:true,label:'凧',colorName:kt});
+return selectChangeTarget(o);
+}
+function generateSpace(){
+var o=[];
+o.push({type:'rect',x:0,y:0,w:canvasW,h:canvasH,color:'#0a0a2a',changeable:false});
+for(var i=0;i<40;i++){o.push({type:'circle',x:Math.random()*canvasW,y:Math.random()*canvasH,radius:rand(1,3),color:'#ffffff',changeable:false})}
+var pp=[{x:0.2,y:0.3,r:35},{x:0.6,y:0.2,r:25},{x:0.8,y:0.55,r:42},{x:0.35,y:0.7,r:20},{x:0.15,y:0.65,r:28}];
+for(var i=0;i<pp.length;i++){var pc=pick(COLOR_NAMES);o.push({type:'circle',x:canvasW*pp[i].x,y:canvasH*pp[i].y,radius:pp[i].r,color:COLORS[pc],changeable:true,label:'惑星',colorName:pc})}
+var rc=pick(COLOR_NAMES);o.push({type:'roundRect',x:canvasW*0.48,y:canvasH*0.45,w:20,h:50,r:10,color:COLORS[rc],changeable:true,label:'ロケット',colorName:rc});
+o.push({type:'triangle',x:canvasW*0.49,y:canvasH*0.58,size:14,color:'#f97316',changeable:false,flip:true});
+var uf=pick(COLOR_NAMES);o.push({type:'circle',x:canvasW*0.5,y:canvasH*0.1,radius:18,color:COLORS[uf],changeable:true,label:'UFO',colorName:uf});
+o.push({type:'roundRect',x:canvasW*0.44,y:canvasH*0.1,w:55,h:12,r:6,color:'#aaa',changeable:false});
+return selectChangeTarget(o);
+}
+function selectChangeTarget(objects){
+var changeables=[];
+for(var i=0;i<objects.length;i++){if(objects[i].changeable){var o=Object.assign({},objects[i]);o._index=i;changeables.push(o)}}
+if(changeables.length===0)return null;
+var target=pick(changeables);var idx=target._index;var newColor=randomColor(target.colorName);
+return{objects:objects,changeIndex:idx,changeType:'color',changeDetail:{from:target.colorName,to:newColor,newColor:COLORS[newColor]},label:target.label,hitbox:getHitbox(target)};
+}
+function getHitbox(obj){
+switch(obj.type){
+case'circle':return{x:obj.x-obj.radius,y:obj.y-obj.radius,w:obj.radius*2,h:obj.radius*2};
+case'rect':case'roundRect':return{x:obj.x,y:obj.y,w:obj.w,h:obj.h};
+case'fish':return{x:obj.x-obj.size,y:obj.y-obj.size*0.6,w:obj.size*2,h:obj.size*1.2};
+case'star':return{x:obj.x-obj.size,y:obj.y-obj.size,w:obj.size*2,h:obj.size*2};
+default:return{x:obj.x-20,y:obj.y-20,w:40,h:40};
+}}
+function drawScene(showChange){
+ctx.clearRect(0,0,canvasW,canvasH);
+for(var i=0;i<sceneData.objects.length;i++){var obj=Object.assign({},sceneData.objects[i]);if(showChange&&i===sceneData.changeIndex){obj.color=sceneData.changeDetail.newColor}drawObject(obj)}
+}
+function drawObject(obj){
+ctx.fillStyle=obj.color;ctx.strokeStyle=obj.stroke||'transparent';ctx.lineWidth=obj.lineWidth||0;
+switch(obj.type){
+case'rect':ctx.fillRect(obj.x,obj.y,obj.w,obj.h);if(obj.stroke)ctx.strokeRect(obj.x,obj.y,obj.w,obj.h);break;
+case'roundRect':drawRoundRect(obj.x,obj.y,obj.w,obj.h,obj.r||8);ctx.fill();if(obj.stroke)ctx.stroke();break;
+case'circle':ctx.beginPath();ctx.arc(obj.x,obj.y,obj.radius,0,Math.PI*2);ctx.fill();if(obj.stroke)ctx.stroke();break;
+case'triangle':ctx.beginPath();if(obj.flip){ctx.moveTo(obj.x,obj.y+obj.size);ctx.lineTo(obj.x-obj.size*0.6,obj.y);ctx.lineTo(obj.x+obj.size*0.6,obj.y)}else{ctx.moveTo(obj.x,obj.y-obj.size);ctx.lineTo(obj.x-obj.size*0.8,obj.y+obj.size*0.5);ctx.lineTo(obj.x+obj.size*0.8,obj.y+obj.size*0.5)}ctx.closePath();ctx.fill();break;
+case'line':ctx.beginPath();ctx.moveTo(obj.x1,obj.y1);ctx.lineTo(obj.x2,obj.y2);ctx.strokeStyle=obj.color;ctx.lineWidth=obj.lineWidth||2;ctx.stroke();break;
+case'cloud':ctx.beginPath();ctx.arc(obj.x,obj.y,obj.size*0.5,0,Math.PI*2);ctx.arc(obj.x+obj.size*0.4,obj.y-obj.size*0.15,obj.size*0.4,0,Math.PI*2);ctx.arc(obj.x+obj.size*0.7,obj.y+obj.size*0.05,obj.size*0.35,0,Math.PI*2);ctx.fill();break;
+case'fish':ctx.beginPath();ctx.ellipse(obj.x,obj.y,obj.size,obj.size*0.5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.moveTo(obj.x+obj.size*0.8,obj.y);ctx.lineTo(obj.x+obj.size*1.3,obj.y-obj.size*0.4);ctx.lineTo(obj.x+obj.size*1.3,obj.y+obj.size*0.4);ctx.closePath();ctx.fill();ctx.fillStyle='white';ctx.beginPath();ctx.arc(obj.x-obj.size*0.4,obj.y-obj.size*0.1,4,0,Math.PI*2);ctx.fill();ctx.fillStyle='#000';ctx.beginPath();ctx.arc(obj.x-obj.size*0.4,obj.y-obj.size*0.1,2,0,Math.PI*2);ctx.fill();break;
+case'star':drawStar(obj.x,obj.y,5,obj.size,obj.size*0.5);ctx.fill();break;
+case'arc':ctx.beginPath();ctx.arc(obj.x,obj.y,obj.radius,Math.PI,0);ctx.fill();break;
+}}
+function drawRoundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
+function drawStar(cx,cy,spikes,outerR,innerR){ctx.beginPath();var rot=Math.PI/2*3;var step=Math.PI/spikes;ctx.moveTo(cx,cy-outerR);for(var i=0;i<spikes;i++){ctx.lineTo(cx+Math.cos(rot)*outerR,cy+Math.sin(rot)*outerR);rot+=step;ctx.lineTo(cx+Math.cos(rot)*innerR,cy+Math.sin(rot)*innerR);rot+=step}ctx.closePath()}
+var triviaList=[
+"変化盲の実験では、会話中に相手が別人に入れ替わっても約50%の人が気づかなかったという報告があります。これは「人物交代実験」（Simons & Levin, 1998）として有名です。",
+"私たちの目は1秒間に約3回「サッケード」と呼ばれる急速な眼球運動をしていますが、その移動中は実質的に「盲目」状態。脳がうまく隠しているだけなのです。",
+"変化盲は「注意」と密接に関連しています。変化が起きた場所にたまたま注意が向いていれば即座に気づけますが、そうでなければ大きな変化でも見落とします。",
+"映画の中の連続性エラー（コップの位置が変わる、服装が変わるなど）に気づきにくいのも変化盲の一種。プロの映画編集者でも完全には防げません。",
+"変化盲の研究は、自動運転車の安全設計や航空管制のインターフェースデザインにも応用されています。人間が見落としやすいポイントを技術でカバーする発想です。",
+"「見えている」という感覚と「実際に処理している」という事実には大きなギャップがあります。これは認知科学で「グランド・イリュージョン」と呼ばれることもあります。",
+"変化盲は年齢の影響を受けます。研究によると、高齢者は若年者よりも変化の検出に時間がかかる傾向がありますが、どの年代でも変化盲自体は生じます。",
+"目撃証言の信頼性が問題になるのも、変化盲と関連しています。事件の最中に起きた変化を見落とす可能性があるため、記憶が不正確になりやすいのです。",
+"スマートフォンを見ながら歩く「歩きスマホ」中は、変化盲がさらに顕著になります。注意資源が画面に奪われ、周囲の大きな変化にも気づかなくなります。",
+"Rensinkら（1997）の「フリッカーパラダイム」は、まさにこのゲームと同じ手法です。2つの画像の間にブランク画面を挟むと、驚くほど変化に気づけなくなります。"
+];
+function showScreen(id){var screens=document.querySelectorAll('.screen');for(var i=0;i<screens.length;i++){screens[i].classList.remove('active')}document.getElementById(id).classList.add('active')}
+function startGame(){currentRound=0;roundTimes=[];startRound()}
+function restartGame(){startGame()}
+function startRound(){
+showScreen('screen-game');canClick=false;
+canvas=document.getElementById('game-canvas');
+var wrapper=document.getElementById('canvas-wrapper');var rect=wrapper.getBoundingClientRect();var dpr=window.devicePixelRatio||1;
+canvasW=rect.width;canvasH=rect.height;canvas.width=canvasW*dpr;canvas.height=canvasH*dpr;
+canvas.style.width=canvasW+'px';canvas.style.height=canvasH+'px';ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+updateHUD();
+var shuffled=sceneGenerators.slice().sort(function(){return Math.random()-0.5});sceneData=shuffled[0]();
+showingOriginal=true;drawScene(false);
+setTimeout(function(){canClick=true;startFlicker();startTimer()},800);
+document.getElementById('hint-text').textContent='どこかが変わっています…見つけてタップ！';
+}
+function startFlicker(){
+var overlay=document.getElementById('flicker-overlay');var phase=0;
+flickerInterval=setInterval(function(){if(phase===0){overlay.style.opacity='1';phase=1;setTimeout(function(){showingOriginal=!showingOriginal;drawScene(!showingOriginal);overlay.style.opacity='0';phase=0},FLICKER_OFF)}},FLICKER_ON+FLICKER_OFF);
+}
+function startTimer(){
+timerStart=Date.now();var timerBar=document.getElementById('timer-bar');
+timerInterval=setInterval(function(){var elapsed=(Date.now()-timerStart)/1000;document.getElementById('hud-timer').textContent=elapsed.toFixed(1)+'秒';var pct=Math.max(0,100-(elapsed/MAX_TIME)*100);timerBar.style.width=pct+'%';if(elapsed>=MAX_TIME){endRound(MAX_TIME)}},50);
+}
+function updateHUD(){
+document.getElementById('hud-round').textContent=(currentRound+1)+'/'+TOTAL_ROUNDS;
+var dc=document.getElementById('round-dots');dc.innerHTML='';
+for(var i=0;i<TOTAL_ROUNDS;i++){var d=document.createElement('div');d.className='round-dot';if(i<currentRound)d.classList.add('done');if(i===currentRound)d.classList.add('current');dc.appendChild(d)}
+}
+document.addEventListener('DOMContentLoaded',function(){
+document.getElementById('canvas-wrapper').addEventListener('click',handleCanvasClick);
+document.getElementById('canvas-wrapper').addEventListener('touchend',handleCanvasTouch);
+});
+function handleCanvasTouch(e){e.preventDefault();if(!canClick)return;var touch=e.changedTouches[0];var rect=canvas.getBoundingClientRect();checkHit(touch.clientX-rect.left,touch.clientY-rect.top)}
+function handleCanvasClick(e){if(!canClick)return;var rect=canvas.getBoundingClientRect();checkHit(e.clientX-rect.left,e.clientY-rect.top)}
+function checkHit(x,y){
+if(!sceneData)return;var hb=sceneData.hitbox;var margin=25;
+if(x>=hb.x-margin&&x<=hb.x+hb.w+margin&&y>=hb.y-margin&&y<=hb.y+hb.h+margin){
+var elapsed=(Date.now()-timerStart)/1000;showFoundEffect(hb.x+hb.w/2,hb.y+hb.h/2);canClick=false;setTimeout(function(){endRound(elapsed)},600);
+}}
+function showFoundEffect(cx,cy){
+var wrapper=document.getElementById('canvas-wrapper');var ring=document.createElement('div');ring.className='found-ring';ring.style.left=cx+'px';ring.style.top=cy+'px';ring.style.width='60px';ring.style.height='60px';wrapper.appendChild(ring);setTimeout(function(){ring.remove()},700);
+clearInterval(flickerInterval);drawScene(true);document.getElementById('flicker-overlay').style.opacity='0';
+}
+function endRound(time){
+clearInterval(timerInterval);clearInterval(flickerInterval);
+var roundTime=Math.min(time,MAX_TIME);roundTimes.push(roundTime);showScreen('screen-round-result');
+var emoji,title;
+if(roundTime<3){emoji='⚡';title='神速！'}
+else if(roundTime<6){emoji='🎉';title='すばらしい！'}
+else if(roundTime<12){emoji='👍';title='見つけた！'}
+else if(roundTime<20){emoji='😅';title='なんとか発見！'}
+else{emoji='😵';title='時間切れ…'}
+document.getElementById('rr-emoji').textContent=emoji;
+document.getElementById('rr-title').textContent=title;
+document.getElementById('rr-time').textContent=roundTime.toFixed(1)+'秒';
+document.getElementById('rr-trivia').textContent=triviaList[currentRound%triviaList.length];
+currentRound++;
+var nextBtn=document.getElementById('rr-next-btn');
+if(currentRound>=TOTAL_ROUNDS){nextBtn.textContent='結果を見る 🏆';nextBtn.onclick=showFinalScreen}
+else{nextBtn.textContent='次のラウンドへ ▶（'+(currentRound+1)+'/'+TOTAL_ROUNDS+'）';nextBtn.onclick=nextRound}
+}
+function nextRound(){startRound()}
+function showFinalScreen(){
+showScreen('screen-final');
+var total=roundTimes.reduce(function(a,b){return a+b},0);var avg=total/TOTAL_ROUNDS;
+document.getElementById('final-total').textContent='合計 '+total.toFixed(1)+'秒';
+var rank,rankClass,comment;
+if(avg<4){rank='S ランク：変化盲マスター';rankClass='rank-s';comment='驚異的な観察力です！認知科学者も驚くレベル。'}
+else if(avg<8){rank='A ランク：鋭い目の持ち主';rankClass='rank-a';comment='素晴らしい観察力！日常の変化にもよく気づくタイプですね。'}
+else if(avg<15){rank='B ランク：なかなかの観察者';rankClass='rank-b';comment='まずまずの結果！人間は誰でも変化盲になるので、気にしないで。'}
+else{rank='C ランク：変化盲体験者';rankClass='rank-c';comment='これぞ変化盲！でも安心してください、これが普通の人間の脳の仕組みです。'}
+var badge=document.getElementById('final-rank-badge');badge.textContent=rank;badge.className='rank-badge '+rankClass;
+document.getElementById('final-comment').textContent=comment;
+var bd=document.getElementById('score-breakdown');bd.innerHTML='';
+for(var i=0;i<TOTAL_ROUNDS;i++){var d=document.createElement('div');d.className='score-round';d.innerHTML='<div class="sr-label">R'+(i+1)+'</div><div class="sr-time">'+roundTimes[i].toFixed(1)+'s</div>';bd.appendChild(d)}
+}
+function shareResult(){
+var total=roundTimes.reduce(function(a,b){return a+b},0);var avg=total/TOTAL_ROUNDS;
+var rank;if(avg<4)rank='S';else if(avg<8)rank='A';else if(avg<15)rank='B';else rank='C';
+var times=roundTimes.map(function(t,i){return'R'+(i+1)+': '+t.toFixed(1)+'s'}).join(' | ');
+var text='🧠 変化盲チャレンジ 結果\n\n合計: '+total.toFixed(1)+'秒（'+rank+'ランク）\n'+times+'\n\nあなたの目はどこまで見えてる？👁️‍🗨️\n#変化盲チャレンジ #MS9こころ';
+window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(window.location.href),'_blank');
+}
+</script>
+</body>
+</html>
