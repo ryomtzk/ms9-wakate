@@ -402,7 +402,7 @@ for(var i=0;i<TOTAL_ROUNDS;i++){var d=document.createElement('div');d.className=
 }
 function shareResult(){
 var total=roundTimes.reduce(function(a,b){return a+b},0);var avg=total/TOTAL_ROUNDS;
-var rank;if(avg<5)rank='S';else if(avg<10)rank='A';else if(avg<20)rank='B';else rank='C';
+var rank;if(avg<3)rank='S';else if(avg<5)rank='A';else if(avg<7)rank='B';else rank='C';
 var times=roundTimes.map(function(t,i){return'R'+(i+1)+': '+t.toFixed(1)+'s'}).join(' | ');
 var text='🧠 変化盲チャレンジ 結果\n\n合計: '+total.toFixed(1)+'秒（'+rank+'ランク）\n'+times+'\n\nあなたの目はどこまで見えてる？👁️‍🗨️\n#変化盲チャレンジ #MS9こころ';
 window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(window.location.href),'_blank');
