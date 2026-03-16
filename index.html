@@ -1,499 +1,602 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MS9 若手の会 — ムーンショット目標9「こころの仕組み」若手研究者ネットワーク</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #1a1a2e;
-    --paper: #faf9f6;
-    --accent: #2d5a7b;
-    --accent-light: #4a90b8;
-    --accent-glow: #6bb5d9;
-    --warm: #c4956a;
-    --warm-light: #e8cdb5;
-    --muted: #7a7a8c;
-    --border: #e2e0db;
-    --card-bg: #ffffff;
-    --section-alt: #f3f1ec;
-    --gradient-hero: linear-gradient(135deg, #1a1a2e 0%, #2d3a5e 40%, #3a5a6e 70%, #2d5a7b 100%);
-  }
-  *, ::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Noto Sans JP', 'DM Sans', sans-serif;
-    color: var(--ink);
-    background: var(--paper);
-    line-height: 1.8;
-    font-weight: 400;
-    overflow-x: hidden;
-  }
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(26, 26, 46, 0.92);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    transition: background 0.4s;
-  }
-  .nav-inner {
-    max-width: 1200px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.9rem 2rem;
-  }
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.25rem; font-weight: 600;
-    color: #fff; letter-spacing: 0.04em;
-    text-decoration: none;
-  }
-  .nav-logo span { color: var(--accent-glow); }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    color: rgba(255,255,255,0.7); text-decoration: none;
-    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
-    transition: color 0.3s;
-  }
-  .nav-links a:hover { color: #fff; }
-  .hero {
-    min-height: 100vh;
-    background: var(--gradient-hero);
-    display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-    text-align: center; color: #fff;
-    padding: 6rem 2rem 4rem;
-  }
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 600px 400px at 20% 30%, rgba(106,181,217,0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 500px 500px at 80% 70%, rgba(196,149,106,0.1) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-particles { position: absolute; inset: 0; pointer-events: none; }
-  .hero-particles span {
-    position: absolute; width: 2px; height: 2px;
-    background: rgba(255,255,255,0.3); border-radius: 50%;
-    animation: float-particle 8s infinite ease-in-out;
-  }
-  @keyframes float-particle {
-    0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-    50% { transform: translateY(-40px) scale(1.5); opacity: 0.7; }
-  }
-  .hero-content { position: relative; z-index: 2; max-width: 800px; }
-  .hero-badge {
-    display: inline-block; padding: 0.4rem 1.4rem;
-    border: 1px solid rgba(255,255,255,0.25); border-radius: 100px;
-    font-size: 0.78rem; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.8); margin-bottom: 2rem;
-    animation: fadeInDown 0.8s ease-out;
-  }
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.8rem, 6vw, 4.8rem);
-    font-weight: 600; line-height: 1.2;
-    letter-spacing: 0.02em; margin-bottom: 0.5rem;
-    animation: fadeInDown 0.8s ease-out 0.15s both;
-  }
-  .hero h1 em { font-style: italic; color: var(--accent-glow); }
-  .hero-sub {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    color: rgba(255,255,255,0.65);
-    font-weight: 300; line-height: 1.7;
-    max-width: 600px; margin: 1.5rem auto 2.5rem;
-    animation: fadeInDown 0.8s ease-out 0.3s both;
-  }
-  .hero-cta {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.85rem 2.2rem;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 100px; color: #fff;
-    text-decoration: none; font-size: 0.9rem; font-weight: 500;
-    transition: all 0.3s;
-    animation: fadeInDown 0.8s ease-out 0.45s both;
-  }
-  .hero-cta:hover {
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.4);
-    transform: translateY(-2px);
-  }
-  .hero-scroll {
-    position: absolute; bottom: 2.5rem; left: 50%;
-    transform: translateX(-50%);
-    color: rgba(255,255,255,0.4);
-    font-size: 0.75rem; letter-spacing: 0.15em;
-    text-transform: uppercase;
-    animation: pulse-down 2s infinite;
-  }
-  @keyframes pulse-down {
-    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
-    50% { transform: translateX(-50%) translateY(8px); opacity: 0.8; }
-  }
-  section { padding: 6rem 2rem; }
-  .container { max-width: 1100px; margin: 0 auto; }
-  .section-label {
-    font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 0.8rem;
-  }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 4vw, 2.8rem);
-    font-weight: 600; line-height: 1.3;
-    margin-bottom: 1.2rem; color: var(--ink);
-  }
-  .section-lead {
-    font-size: 1.05rem; color: var(--muted);
-    max-width: 640px; line-height: 1.9; font-weight: 300;
-  }
-  .about { background: var(--paper); }
-  .about-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 4rem; margin-top: 3rem; align-items: start;
-  }
-  .about-text p { margin-bottom: 1.2rem; font-size: 0.95rem; color: #444; line-height: 2; }
-  .about-cards { display: flex; flex-direction: column; gap: 1.2rem; }
-  .about-card {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 12px; padding: 1.5rem 1.8rem; transition: all 0.3s;
-  }
-  .about-card:hover {
-    border-color: var(--accent-light);
-    box-shadow: 0 8px 30px rgba(45,90,123,0.08);
-    transform: translateY(-2px);
-  }
-  .about-card-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem; font-weight: 600;
-    color: var(--accent); line-height: 1; margin-bottom: 0.3rem;
-  }
-  .about-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
-  .about-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
-  .research { background: var(--section-alt); }
-  .research-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .research-item {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 14px; padding: 2rem;
-    position: relative; overflow: hidden; transition: all 0.35s;
-  }
-  .research-item::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-glow));
-    opacity: 0; transition: opacity 0.35s;
-  }
-  .research-item:hover::before { opacity: 1; }
-  .research-item:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.06); transform: translateY(-3px); }
-  .research-icon {
-    width: 44px; height: 44px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-light));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem; margin-bottom: 1.2rem; color: #fff;
-  }
-  .research-item h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
-  .research-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
-  .members { background: var(--paper); }
-  .members-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .member-card {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 14px; padding: 2rem;
-    text-align: center; transition: all 0.35s;
-  }
-  .member-card:hover {
-    border-color: var(--warm);
-    box-shadow: 0 8px 30px rgba(196,149,106,0.1);
-    transform: translateY(-3px);
-  }
-  .member-avatar {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--warm));
-    margin: 0 auto 1rem;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem; font-weight: 600; color: #fff;
-  }
-  .member-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
-  .member-card .role { font-size: 0.78rem; color: var(--accent); font-weight: 500; margin-bottom: 0.5rem; }
-  .member-card .affil { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
-  .activity { background: var(--section-alt); }
-  .timeline { margin-top: 3rem; position: relative; padding-left: 2.5rem; }
-  .timeline::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 2px; background: linear-gradient(180deg, var(--accent), var(--warm-light));
-  }
-  .timeline-item { position: relative; margin-bottom: 2.5rem; padding-left: 1.5rem; }
-  .timeline-item::before {
-    content: ''; position: absolute;
-    left: -2.95rem; top: 0.4rem;
-    width: 12px; height: 12px; border-radius: 50%;
-    background: var(--accent);
-    border: 3px solid var(--paper);
-    box-shadow: 0 0 0 2px var(--accent);
-  }
-  .timeline-date {
-    font-size: 0.75rem; font-weight: 700;
-    color: var(--accent); letter-spacing: 0.08em;
-    text-transform: uppercase; margin-bottom: 0.3rem;
-  }
-  .timeline-item h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
-  .timeline-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
-  .cta-section {
-    background: var(--gradient-hero); color: #fff;
-    text-align: center; padding: 5rem 2rem; position: relative;
-  }
-  .cta-section::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse 600px 300px at 50% 50%, rgba(106,181,217,0.1) 0%, transparent 70%);
-  }
-  .cta-section .container { position: relative; z-index: 2; }
-  .cta-section .section-title { color: #fff; }
-  .cta-section .section-lead { color: rgba(255,255,255,0.6); margin: 0 auto 2.5rem; }
-  .cta-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-  .cta-link {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.8rem 2rem; border-radius: 100px;
-    font-size: 0.9rem; font-weight: 500;
-    text-decoration: none; transition: all 0.3s;
-  }
-  .cta-link--primary { background: #fff; color: var(--ink); }
-  .cta-link--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
-  .cta-link--outline { border: 1px solid rgba(255,255,255,0.3); color: #fff; }
-  .cta-link--outline:hover { background: rgba(255,255,255,0.1); }
-  footer {
-    background: var(--ink); color: rgba(255,255,255,0.4);
-    text-align: center; padding: 2.5rem 2rem;
-    font-size: 0.8rem; letter-spacing: 0.04em;
-  }
-  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
-  footer a:hover { color: #fff; }
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .fade-in {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-  }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .research-grid { grid-template-columns: 1fr; }
-    .members-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-    section { padding: 4rem 1.5rem; }
-    .hero { padding: 5rem 1.5rem 3rem; }
-    .timeline { padding-left: 2rem; }
-    .timeline-item::before { left: -2.45rem; }
-  }
-</style>
-</head>
-<body>
-<nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">MS9 <span>若手の会</span></a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#members">Members</a></li>
-      <li><a href="#activity">Activity</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-<section class="hero" id="top">
-  <div class="hero-particles">
-    <span style="top:15%;left:10%;animation-delay:0s"></span>
-    <span style="top:25%;left:30%;animation-delay:1.2s"></span>
-    <span style="top:60%;left:20%;animation-delay:2.5s"></span>
-    <span style="top:40%;left:70%;animation-delay:0.8s"></span>
-    <span style="top:70%;left:80%;animation-delay:3.1s"></span>
-    <span style="top:20%;left:85%;animation-delay:1.8s"></span>
-    <span style="top:80%;left:45%;animation-delay:4s"></span>
-    <span style="top:50%;left:55%;animation-delay:2s"></span>
-  </div>
-  <div class="hero-content">
-    <div class="hero-badge">Moonshot R&amp;D Goal 9 — JST</div>
-    <h1>「<em>こころ</em>」の科学を、<br>次世代の手で。</h1>
-    <p class="hero-sub">
-      ムーンショット目標9「こころの仕組み」に関わる若手研究者が分野を超えて集い、<br>
-      次世代の「こころ」研究を共に拓くネットワークです。
-    </p>
-    <a href="#about" class="hero-cta">もっと詳しく ↓</a>
-  </div>
-  <div class="hero-scroll">scroll</div>
-</section>
-<section class="about" id="about">
-  <div class="container">
-    <div class="section-label fade-in">About</div>
-    <h2 class="section-title fade-in">若手の会とは</h2>
-    <div class="about-grid">
-      <div class="about-text fade-in">
-        <p>MS9若手の会は、JST ムーンショット型研究開発事業 目標9「2050年までに、こころの安らぎや活力を増大することで、精神的に富める社会を実現」に参画する若手研究者の横断的ネットワークです。</p>
-        <p>認知科学・神経科学・心理学・哲学・情報科学など多様な分野の若手が集い、プロジェクト間の知見共有、共同研究の萌芽、そして「こころ」の科学の次世代ビジョンを議論する場として活動しています。</p>
-        <p>2025年に発足し、定期的なシンポジウム・勉強会・アウトリーチ活動を通じて、分野横断的な学術コミュニティの形成を目指しています。</p>
-      </div>
-      <div class="about-cards fade-in">
-        <div class="about-card">
-          <div class="about-card-num">01</div>
-          <h3>分野横断</h3>
-          <p>認知科学・神経科学・心理学・哲学・AIなど、多領域の若手が一堂に会するプラットフォーム</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-num">02</div>
-          <h3>知の共有</h3>
-          <p>プロジェクト間での研究知見の共有と、新たな共同研究の可能性を探索</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-num">03</div>
-          <h3>次世代ビジョン</h3>
-          <p>2050年の「こころ」の科学を担う世代として、長期的な研究ビジョンを共に描く</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="research" id="research">
-  <div class="container">
-    <div class="section-label fade-in">Research Themes</div>
-    <h2 class="section-title fade-in">研究テーマ</h2>
-    <p class="section-lead fade-in">メンバーの研究は多岐にわたります。以下は会で扱われる主要テーマの一部です。</p>
-    <div class="research-grid">
-      <div class="research-item fade-in">
-        <div class="research-icon">&#x1F9E0;</div>
-        <h3>意識とメタ認知</h3>
-        <p>意識体験の神経基盤、メタ認知能力の個人差、主観的経験の測定手法に関する研究</p>
-      </div>
-      <div class="research-item fade-in">
-        <div class="research-icon">&#x1F3A8;</div>
-        <h3>知覚とバイアス</h3>
-        <p>感情・認知バイアスが知覚に与える影響、色彩認知、楽観性バイアスの知覚的帰結</p>
-      </div>
-      <div class="research-item fade-in">
-        <div class="research-icon">&#x1F91D;</div>
-        <h3>身体性と行為主体感</h3>
-        <p>Sense of Agency、身体所有感、「手応え」概念を軸とした随意行動と主観的経験の研究</p>
-      </div>
-      <div class="research-item fade-in">
-        <div class="research-icon">&#x1F4A1;</div>
-        <h3>ウェルビーイング</h3>
-        <p>精神的豊かさの科学的基盤、レジリエンス、こころの安らぎを支えるメカニズムの解明</p>
-      </div>
-      <div class="research-item fade-in">
-        <div class="research-icon">&#x1F52C;</div>
-        <h3>オープンサイエンス</h3>
-        <p>事前登録・Registered Report・再現可能性を重視した透明性の高い研究実践</p>
-      </div>
-      <div class="research-item fade-in">
-        <div class="research-icon">&#x1F310;</div>
-        <h3>計算論的アプローチ</h3>
-        <p>ベイジアンモデリング、予測符号化、計算論的精神医学の手法による「こころ」の理解</p>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="members" id="members">
-  <div class="container">
-    <div class="section-label fade-in">Members</div>
-    <h2 class="section-title fade-in">メンバー</h2>
-    <p class="section-lead fade-in">多様な分野から集う若手研究者たち（順不同・一部掲載）</p>
-    <div class="members-grid">
-      <div class="member-card fade-in">
-        <div class="member-avatar">A</div>
-        <h3>メンバー A</h3>
-        <div class="role">代表</div>
-        <div class="affil">○○大学 認知科学</div>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar">B</div>
-        <h3>メンバー B</h3>
-        <div class="role">副代表</div>
-        <div class="affil">△△大学 神経科学</div>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar">C</div>
-        <h3>メンバー C</h3>
-        <div class="role">メンバー</div>
-        <div class="affil">□□大学 心理学</div>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar">D</div>
-        <h3>メンバー D</h3>
-        <div class="role">メンバー</div>
-        <div class="affil">◇◇研究所 哲学</div>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar">E</div>
-        <h3>メンバー E</h3>
-        <div class="role">メンバー</div>
-        <div class="affil">☆☆大学 情報科学</div>
-      </div>
-      <div class="member-card fade-in">
-        <div class="member-avatar">F</div>
-        <h3>メンバー F</h3>
-        <div class="role">メンバー</div>
-        <div class="affil">○×大学 臨床心理</div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="activity" id="activity">
-  <div class="container">
-    <div class="section-label fade-in">Activity</div>
-    <h2 class="section-title fade-in">活動記録</h2>
-    <div class="timeline">
-      <div class="timeline-item fade-in">
-        <div class="timeline-date">2025年3月 7–8日</div>
-        <h3>第1回キックオフシンポジウム（東京）</h3>
-        <p>招聘講演者5名を迎えた2日間のシンポジウムを開催。各プロジェクトの若手研究者が一堂に会し、研究テーマの紹介と議論を行いました。</p>
-      </div>
-      <div class="timeline-item fade-in">
-        <div class="timeline-date">2025年4月〜</div>
-        <h3>月例オンライン勉強会</h3>
-        <p>メンバー持ち回りでの論文紹介・テーマ別ディスカッションを定期開催予定。</p>
-      </div>
-      <div class="timeline-item fade-in">
-        <div class="timeline-date">Coming Soon</div>
-        <h3>ニュースレター創刊</h3>
-        <p>研究紹介・読んだ論文の短評・イベント報告を掲載するニュースレターを準備中。</p>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="cta-section" id="contact">
-  <div class="container">
-    <h2 class="section-title fade-in">つながる</h2>
-    <p class="section-lead fade-in">若手の会の活動に関心をお持ちの方は、お気軽にお問い合わせください。</p>
-    <div class="cta-links fade-in">
-      <a href="https://twitter.com/" class="cta-link cta-link--primary" target="_blank">𝕏 フォローする</a>
-      <a href="mailto:example@example.com" class="cta-link cta-link--outline">✉ お問い合わせ</a>
-      <a href="#" class="cta-link cta-link--outline">📰 ニュースレター</a>
-    </div>
-  </div>
-</section>
-<footer>
-  <p>
-    &copy; 2025 MS9 若手の会 — ムーンショット目標9「こころの仕組み」若手研究者ネットワーク<br>
-    Supported by <a href="https://www.jst.go.jp/moonshot/" target="_blank">JST Moonshot R&amp;D Program</a>
-  </p>
-</footer>
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>MS9 若手の会 — ムーンショット目標9「こころの仕組み」若手研究者ネットワーク</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+          :root {
+                  --ink: #1a1a2e;
+                  --paper: #faf9f6;
+                  --accent: #2d5a7b;
+                  --accent-light: #4a90b8;
+                  --accent-glow: #6bb5d9;
+                  --warm: #c4956a;
+                  --warm-light: #e8cdb5;
+                  --muted: #7a7a8c;
+                  --border: #e2e0db;
+                  --card-bg: #ffffff;
+                  --section-alt: #f3f1ec;
+                  --gradient-hero: linear-gradient(135deg, #1a1a2e 0%, #2d3a5e 40%, #3a5a6e 70%, #2d5a7b 100%);
+          }
+          *, ::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+          html { scroll-behavior: smooth; }
+          body {
+                  font-family: 'Noto Sans JP', 'DM Sans', sans-serif;
+                  color: var(--ink);
+                  background: var(--paper);
+                  line-height: 1.8;
+                  font-weight: 400;
+                  overflow-x: hidden;
+          }
+
+          /* ── Navigation ── */
+          nav {
+                  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+                  background: rgba(26, 26, 46, 0.92);
+                  backdrop-filter: blur(16px);
+                  border-bottom: 1px solid rgba(255,255,255,0.08);
+                  transition: background 0.4s;
+          }
+          .nav-inner {
+                  max-width: 1200px; margin: 0 auto;
+                  display: flex; align-items: center; justify-content: space-between;
+                  padding: 0.9rem 2rem;
+          }
+          .nav-logo {
+                  font-family: 'Cormorant Garamond', serif;
+                  font-size: 1.25rem; font-weight: 600;
+                  color: #fff; letter-spacing: 0.04em;
+                  text-decoration: none;
+                  display: flex; align-items: center; gap: 0.6rem;
+          }
+          .nav-logo img {
+                  height: 36px; width: auto;
+                  filter: drop-shadow(0 0 8px rgba(107, 181, 217, 0.4));
+                  transition: filter 0.3s;
+          }
+          .nav-logo:hover img {
+                  filter: drop-shadow(0 0 14px rgba(107, 181, 217, 0.7));
+          }
+          .nav-logo span { color: var(--accent-glow); }
+          .nav-links { display: flex; gap: 2rem; list-style: none; }
+          .nav-links a {
+                  color: rgba(255,255,255,0.7); text-decoration: none;
+                  font-size: 0.85rem; font-weight: 500;
+                  letter-spacing: 0.05em; transition: color 0.3s;
+          }
+          .nav-links a:hover { color: #fff; }
+
+          /* ── Hero ── */
+          .hero {
+                  min-height: 100vh;
+                  background: var(--gradient-hero);
+                  display: flex; align-items: center; justify-content: center;
+                  position: relative; overflow: hidden;
+                  text-align: center; color: #fff;
+                  padding: 6rem 2rem 4rem;
+          }
+          .hero::before {
+                  content: ''; position: absolute; inset: 0;
+                  background:
+                            radial-gradient(ellipse 600px 400px at 20% 30%, rgba(106,181,217,0.12) 0%, transparent 70%),
+                            radial-gradient(ellipse 500px 500px at 80% 70%, rgba(196,149,106,0.1) 0%, transparent 70%);
+                  pointer-events: none;
+          }
+          .hero-particles { position: absolute; inset: 0; pointer-events: none; }
+          .hero-particles span {
+                  position: absolute; width: 2px; height: 2px;
+                  background: rgba(255,255,255,0.3); border-radius: 50%;
+                  animation: float-particle 8s infinite ease-in-out;
+          }
+          @keyframes float-particle {
+                  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+                  50% { transform: translateY(-40px) scale(1.5); opacity: 0.7; }
+          }
+          .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+          /* ── Hero Logo ── */
+          .hero-logo {
+                  width: 120px; height: 120px;
+                  margin: 0 auto 1.8rem;
+                  animation: fadeInDown 0.8s ease-out, float-logo 4s ease-in-out infinite 1s;
+                  filter: drop-shadow(0 4px 20px rgba(107, 181, 217, 0.35));
+          }
+          .hero-logo img {
+                  width: 100%; height: 100%;
+                  object-fit: contain;
+          }
+          @keyframes float-logo {
+                  0%, 100% { transform: translateY(0); }
+                  50% { transform: translateY(-10px); }
+          }
+
+          .hero-badge {
+                  display: inline-block; padding: 0.4rem 1.4rem;
+                  border: 1px solid rgba(255,255,255,0.25);
+                  border-radius: 100px; font-size: 0.78rem;
+                  font-weight: 500; letter-spacing: 0.12em;
+                  text-transform: uppercase; color: rgba(255,255,255,0.8);
+                  margin-bottom: 2rem;
+                  animation: fadeInDown 0.8s ease-out;
+          }
+          .hero h1 {
+                  font-family: 'Cormorant Garamond', serif;
+                  font-size: clamp(2.8rem, 6vw, 4.8rem);
+                  font-weight: 600; line-height: 1.2;
+                  letter-spacing: 0.02em; margin-bottom: 0.5rem;
+                  animation: fadeInDown 0.8s ease-out 0.15s both;
+          }
+          .hero h1 em { font-style: italic; color: var(--accent-glow); }
+          .hero-sub {
+                  font-size: clamp(1rem, 2vw, 1.2rem);
+                  color: rgba(255,255,255,0.65); font-weight: 300;
+                  line-height: 1.7; max-width: 600px;
+                  margin: 1.5rem auto 2.5rem;
+                  animation: fadeInDown 0.8s ease-out 0.3s both;
+          }
+          .hero-cta {
+                  display: inline-flex; align-items: center; gap: 0.5rem;
+                  padding: 0.85rem 2.2rem;
+                  background: rgba(255,255,255,0.12);
+                  border: 1px solid rgba(255,255,255,0.25);
+                  border-radius: 100px; color: #fff;
+                  text-decoration: none; font-size: 0.9rem;
+                  font-weight: 500; transition: all 0.3s;
+                  animation: fadeInDown 0.8s ease-out 0.45s both;
+          }
+          .hero-cta:hover {
+                  background: rgba(255,255,255,0.2);
+                  border-color: rgba(255,255,255,0.4);
+                  transform: translateY(-2px);
+          }
+          .hero-scroll {
+                  position: absolute; bottom: 2.5rem;
+                  left: 50%; transform: translateX(-50%);
+                  color: rgba(255,255,255,0.4);
+                  font-size: 0.75rem; letter-spacing: 0.15em;
+                  text-transform: uppercase;
+                  animation: pulse-down 2s infinite;
+          }
+          @keyframes pulse-down {
+                  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+                  50% { transform: translateX(-50%) translateY(8px); opacity: 0.8; }
+          }
+
+          /* ── Sections ── */
+          section { padding: 6rem 2rem; }
+          .container { max-width: 1100px; margin: 0 auto; }
+          .section-label {
+                  font-size: 0.72rem; font-weight: 700;
+                  letter-spacing: 0.2em; text-transform: uppercase;
+                  color: var(--accent); margin-bottom: 0.8rem;
+          }
+          .section-title {
+                  font-family: 'Cormorant Garamond', serif;
+                  font-size: clamp(2rem, 4vw, 2.8rem);
+                  font-weight: 600; line-height: 1.3;
+                  margin-bottom: 1.2rem; color: var(--ink);
+          }
+          .section-lead {
+                  font-size: 1.05rem; color: var(--muted);
+                  max-width: 640px; line-height: 1.9; font-weight: 300;
+          }
+
+          /* ── About ── */
+          .about { background: var(--paper); }
+          .about-grid {
+                  display: grid; grid-template-columns: 1fr 1fr;
+                  gap: 4rem; margin-top: 3rem; align-items: start;
+          }
+          .about-text p {
+                  margin-bottom: 1.2rem; font-size: 0.95rem;
+                  color: #444; line-height: 2;
+          }
+          .about-cards { display: flex; flex-direction: column; gap: 1.2rem; }
+          .about-card {
+                  background: var(--card-bg);
+                  border: 1px solid var(--border);
+                  border-radius: 12px; padding: 1.5rem 1.8rem;
+                  transition: all 0.3s;
+          }
+          .about-card:hover {
+                  border-color: var(--accent-light);
+                  box-shadow: 0 8px 30px rgba(45,90,123,0.08);
+                  transform: translateY(-2px);
+          }
+          .about-card-num {
+                  font-family: 'Cormorant Garamond', serif;
+                  font-size: 2rem; font-weight: 600;
+                  color: var(--accent); line-height: 1;
+                  margin-bottom: 0.3rem;
+          }
+          .about-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+          .about-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+
+          /* ── Research ── */
+          .research { background: var(--section-alt); }
+          .research-grid {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                  gap: 1.5rem; margin-top: 3rem;
+          }
+          .research-item {
+                  background: var(--card-bg);
+                  border: 1px solid var(--border);
+                  border-radius: 14px; padding: 2rem;
+                  position: relative; overflow: hidden;
+                  transition: all 0.35s;
+          }
+          .research-item::before {
+                  content: ''; position: absolute;
+                  top: 0; left: 0; right: 0; height: 3px;
+                  background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+                  opacity: 0; transition: opacity 0.35s;
+          }
+          .research-item:hover::before { opacity: 1; }
+          .research-item:hover {
+                  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+                  transform: translateY(-3px);
+          }
+          .research-icon {
+                  width: 44px; height: 44px; border-radius: 10px;
+                  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+                  display: flex; align-items: center; justify-content: center;
+                  font-size: 1.3rem; margin-bottom: 1.2rem; color: #fff;
+          }
+          .research-item h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
+          .research-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
+
+          /* ── Members ── */
+          .members { background: var(--paper); }
+          .members-grid {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                  gap: 1.5rem; margin-top: 3rem;
+          }
+          .member-card {
+                  background: var(--card-bg);
+                  border: 1px solid var(--border);
+                  border-radius: 14px; padding: 2rem;
+                  text-align: center; transition: all 0.35s;
+          }
+          .member-card:hover {
+                  border-color: var(--warm);
+                  box-shadow: 0 8px 30px rgba(196,149,106,0.1);
+                  transform: translateY(-3px);
+          }
+          .member-avatar {
+                  width: 72px; height: 72px; border-radius: 50%;
+                  background: linear-gradient(135deg, var(--accent), var(--warm));
+                  margin: 0 auto 1rem;
+                  display: flex; align-items: center; justify-content: center;
+                  font-family: 'Cormorant Garamond', serif;
+                  font-size: 1.6rem; font-weight: 600; color: #fff;
+          }
+          .member-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+          .member-card .role {
+                  font-size: 0.78rem; color: var(--accent);
+                  font-weight: 500; margin-bottom: 0.5rem;
+          }
+          .member-card .affil { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+          /* ── Activity ── */
+          .activity { background: var(--section-alt); }
+          .timeline { margin-top: 3rem; position: relative; padding-left: 2.5rem; }
+          .timeline::before {
+                  content: ''; position: absolute;
+                  left: 0; top: 0; bottom: 0; width: 2px;
+                  background: linear-gradient(180deg, var(--accent), var(--warm-light));
+          }
+          .timeline-item { position: relative; margin-bottom: 2.5rem; padding-left: 1.5rem; }
+          .timeline-item::before {
+                  content: ''; position: absolute;
+                  left: -2.95rem; top: 0.4rem;
+                  width: 12px; height: 12px; border-radius: 50%;
+                  background: var(--accent);
+                  border: 3px solid var(--paper);
+                  box-shadow: 0 0 0 2px var(--accent);
+          }
+          .timeline-date {
+                  font-size: 0.75rem; font-weight: 700;
+                  color: var(--accent); letter-spacing: 0.08em;
+                  text-transform: uppercase; margin-bottom: 0.3rem;
+          }
+          .timeline-item h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+          .timeline-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
+
+          /* ── CTA ── */
+          .cta-section {
+                  background: var(--gradient-hero);
+                  color: #fff; text-align: center;
+                  padding: 5rem 2rem; position: relative;
+          }
+          .cta-section::before {
+                  content: ''; position: absolute; inset: 0;
+                  background: radial-gradient(ellipse 600px 300px at 50% 50%, rgba(106,181,217,0.1) 0%, transparent 70%);
+          }
+          .cta-section .container { position: relative; z-index: 2; }
+          .cta-section .section-title { color: #fff; }
+          .cta-section .section-lead { color: rgba(255,255,255,0.6); margin: 0 auto 2.5rem; }
+          .cta-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+          .cta-link {
+                  display: inline-flex; align-items: center; gap: 0.5rem;
+                  padding: 0.8rem 2rem; border-radius: 100px;
+                  font-size: 0.9rem; font-weight: 500;
+                  text-decoration: none; transition: all 0.3s;
+          }
+          .cta-link--primary { background: #fff; color: var(--ink); }
+          .cta-link--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+          .cta-link--outline { border: 1px solid rgba(255,255,255,0.3); color: #fff; }
+          .cta-link--outline:hover { background: rgba(255,255,255,0.1); }
+
+          /* ── Footer ── */
+          footer {
+                  background: var(--ink);
+                  color: rgba(255,255,255,0.4);
+                  text-align: center; padding: 2.5rem 2rem;
+                  font-size: 0.8rem; letter-spacing: 0.04em;
+          }
+          .footer-inner {
+                  display: flex; flex-direction: column;
+                  align-items: center; gap: 1rem;
+          }
+          .footer-logo {
+                  height: 32px; width: auto;
+                  opacity: 0.5; transition: opacity 0.3s;
+          }
+          .footer-logo:hover { opacity: 0.8; }
+          footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+          footer a:hover { color: #fff; }
+
+          /* ── Animations ── */
+          @keyframes fadeInDown {
+                  from { opacity: 0; transform: translateY(-20px); }
+                  to { opacity: 1; transform: translateY(0); }
+          }
+          .fade-in {
+                  opacity: 0; transform: translateY(30px);
+                  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+          }
+          .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+          /* ── Responsive ── */
+          @media (max-width: 768px) {
+                  .nav-links { display: none; }
+                  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+                  .research-grid { grid-template-columns: 1fr; }
+                  .members-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+                  section { padding: 4rem 1.5rem; }
+                  .hero { padding: 5rem 1.5rem 3rem; }
+                  .hero-logo { width: 90px; height: 90px; margin-bottom: 1.2rem; }
+                  .timeline { padding-left: 2rem; }
+                  .timeline-item::before { left: -2.45rem; }
+          }
+        </style>
+  </head>
+  <body>
+
+      <nav>
+            <div class="nav-inner">
+                    <a href="#" class="nav-logo">
+                              <img src="logo.png" alt="MS9 若手の会 ロゴ">
+                              MS9 <span>若手の会</span>
+                    </a>a>
+                  <ul class="nav-links">
+                          <li><a href="#about">About</a>a></li>
+                          <li><a href="#research">Research</a>a></li>
+                          <li><a href="#members">Members</a>a></li>
+                          <li><a href="#activity">Activity</a>a></li>
+                          <li><a href="#contact">Contact</a>a></li>
+                  </ul>ul>
+            </div>div>
+      </nav>
+  
+    <section class="hero" id="top">
+        <div class="hero-particles">
+              <span style="top:15%;left:10%;animation-delay:0s"></span>
+              <span style="top:25%;left:30%;animation-delay:1.2s"></span>
+              <span style="top:60%;left:20%;animation-delay:2.5s"></span>
+              <span style="top:40%;left:70%;animation-delay:0.8s"></span>
+              <span style="top:70%;left:80%;animation-delay:3.1s"></span>
+              <span style="top:20%;left:85%;animation-delay:1.8s"></span>
+              <span style="top:80%;left:45%;animation-delay:4s"></span>
+              <span style="top:50%;left:55%;animation-delay:2s"></span>
+        </div>div>
+        <div class="hero-content">
+              <div class="hero-logo">
+                      <img src="logo.png" alt="MS9 若手の会 ロゴ">
+              </div>div>
+              <div class="hero-badge">Moonshot R&amp;D Goal 9 — JST</div>div>
+              <h1>「<em>こころ</em>」の科学を、<br>次世代の手で。</h1>
+              <p class="hero-sub">
+                ムーンショット目標9「こころの仕組み」に関わる若手研究者が分野を超えて集い、<br>
+                次世代の「こころ」研究を共に拓くネットワークです。
+              </p>p>
+              <a href="#about" class="hero-cta">もっと詳しく ↓</a>a>
+        </div>div>
+        <div class="hero-scroll">scroll</div>div>
+    </section>section>
+  
+    <section class="about" id="about">
+        <div class="container">
+              <div class="section-label fade-in">About</div>div>
+              <h2 class="section-title fade-in">若手の会とは</h2>
+              <div class="about-grid">
+                      <div class="about-text fade-in">
+                                <p>MS9若手の会は、JST ムーンショット型研究開発事業 目標9「2050年までに、こころの安らぎや活力を増大することで、精神的に富める社会を実現」に参画する若手研究者の横断的ネットワークです。</p>
+                                <p>認知科学・神経科学・心理学・哲学・情報科学など多様な分野の若手が集い、プロジェクト間の知見共有、共同研究の萌芽、そして「こころ」の科学の次世代ビジョンを議論する場として活動しています。</p>
+                                <p>2025年に発足し、定期的なシンポジウム・勉強会・アウトリーチ活動を通じて、分野横断的な学術コミュニティの形成を目指しています。</p>
+                      </div>div>
+                      <div class="about-cards fade-in">
+                                <div class="about-card">
+                                            <div class="about-card-num">01</div>div>
+                                            <h3>分野横断</h3>
+                                            <p>認知科学・神経科学・心理学・哲学・AIなど、多領域の若手が一堂に会するプラットフォーム</p>
+                                </div>div>
+                                <div class="about-card">
+                                            <div class="about-card-num">02</div>div>
+                                            <h3>知の共有</h3>
+                                            <p>プロジェクト間での研究知見の共有と、新たな共同研究の可能性を探索</p>
+                                </div>div>
+                                <div class="about-card">
+                                            <div class="about-card-num">03</div>div>
+                                            <h3>次世代ビジョン</h3>
+                                            <p>2050年の「こころ」の科学を担う世代として、長期的な研究ビジョンを共に描く</p>
+                                </div>div>
+                      </div>div>
+              </div>div>
+        </div>div>
+    </section>section>
+  
+    <section class="research" id="research">
+        <div class="container">
+              <div class="section-label fade-in">Research Themes</div>div>
+              <h2 class="section-title fade-in">研究テーマ</h2>
+              <p class="section-lead fade-in">メンバーの研究は多岐にわたります。以下は会で扱われる主要テーマの一部です。</p>
+              <div class="research-grid">
+                      <div class="research-item fade-in">
+                                <div class="research-icon">&#x1F9E0;</div>div>
+                                <h3>意識とメタ認知</h3>
+                                <p>意識体験の神経基盤、メタ認知能力の個人差、主観的経験の測定手法に関する研究</p>
+                      </div>div>
+                      <div class="research-item fade-in">
+                                <div class="research-icon">&#x1F3A8;</div>div>
+                                <h3>知覚とバイアス</h3>
+                                <p>感情・認知バイアスが知覚に与える影響、色彩認知、楽観性バイアスの知覚的帰結</p>
+                      </div>div>
+                      <div class="research-item fade-in">
+                                <div class="research-icon">&#x1F91D;</div>div>
+                                <h3>身体性と行為主体感</h3>
+                                <p>Sense of Agency、身体所有感、「手応え」概念を軸とした随意行動と主観的経験の研究</p>
+                      </div>div>
+                      <div class="research-item fade-in">
+                                <div class="research-icon">&#x1F4A1;</div>div>
+                                <h3>ウェルビーイング</h3>
+                                <p>精神的豊かさの科学的基盤、レジリエンス、こころの安らぎを支えるメカニズムの解明</p>
+                      </div>div>
+                      <div class="research-item fade-in">
+                                <div class="research-icon">&#x1F52C;</div>div>
+                                <h3>オープンサイエンス</h3>
+                                <p>事前登録・Registered Report・再現可能性を重視した透明性の高い研究実践</p>
+                      </div>div>
+                      <div class="research-item fade-in">
+                                <div class="research-icon">&#x1F310;</div>div>
+                                <h3>計算論的アプローチ</h3>
+                                <p>ベイジアンモデリング、予測符号化、計算論的精神医学の手法による「こころ」の理解</p>
+                      </div>div>
+              </div>div>
+        </div>div>
+    </section>section>
+  
+    <section class="members" id="members">
+        <div class="container">
+              <div class="section-label fade-in">Members</div>div>
+              <h2 class="section-title fade-in">メンバー</h2>
+              <p class="section-lead fade-in">多様な分野から集う若手研究者たち（順不同・一部掲載）</p>
+              <div class="members-grid">
+                      <div class="member-card fade-in">
+                                <div class="member-avatar">A</div>div>
+                                <h3>メンバー A</h3>
+                                <div class="role">代表</div>div>
+                                <div class="affil">○○大学 認知科学</div>div>
+                      </div>div>
+                      <div class="member-card fade-in">
+                                <div class="member-avatar">B</div>div>
+                                <h3>メンバー B</h3>
+                                <div class="role">副代表</div>div>
+                                <div class="affil">△△大学 神経科学</div>div>
+                      </div>div>
+                      <div class="member-card fade-in">
+                                <div class="member-avatar">C</div>div>
+                                <h3>メンバー C</h3>
+                                <div class="role">メンバー</div>div>
+                                <div class="affil">□□大学 心理学</div>div>
+                      </div>div>
+                      <div class="member-card fade-in">
+                                <div class="member-avatar">D</div>div>
+                                <h3>メンバー D</h3>
+                                <div class="role">メンバー</div>div>
+                                <div class="affil">◇◇研究所 哲学</div>div>
+                      </div>div>
+                      <div class="member-card fade-in">
+                                <div class="member-avatar">E</div>div>
+                                <h3>メンバー E</h3>
+                                <div class="role">メンバー</div>div>
+                                <div class="affil">☆☆大学 情報科学</div>div>
+                      </div>div>
+                      <div class="member-card fade-in">
+                                <div class="member-avatar">F</div>div>
+                                <h3>メンバー F</h3>
+                                <div class="role">メンバー</div>div>
+                                <div class="affil">○×大学 臨床心理</div>div>
+                      </div>div>
+              </div>div>
+        </div>div>
+    </section>section>
+  
+    <section class="activity" id="activity">
+        <div class="container">
+              <div class="section-label fade-in">Activity</div>div>
+              <h2 class="section-title fade-in">活動記録</h2>
+              <div class="timeline">
+                      <div class="timeline-item fade-in">
+                                <div class="timeline-date">2025年3月 7–8日</div>div>
+                                <h3>第1回キックオフシンポジウム（東京）</h3>
+                                <p>招聘講演者5名を迎えた2日間のシンポジウムを開催。各プロジェクトの若手研究者が一堂に会し、研究テーマの紹介と議論を行いました。</p>
+                      </div>div>
+                      <div class="timeline-item fade-in">
+                                <div class="timeline-date">2025年4月〜</div>div>
+                                <h3>月例オンライン勉強会</h3>
+                                <p>メンバー持ち回りでの論文紹介・テーマ別ディスカッションを定期開催予定。</p>
+                      </div>div>
+                      <div class="timeline-item fade-in">
+                                <div class="timeline-date">Coming Soon</div>div>
+                                <h3>ニュースレター創刊</h3>
+                                <p>研究紹介・読んだ論文の短評・イベント報告を掲載するニュースレターを準備中。</p>
+                      </div>div>
+              </div>div>
+        </div>div>
+    </section>section>
+  
+    <section class="cta-section" id="contact">
+        <div class="container">
+              <h2 class="section-title fade-in">つながる</h2>
+              <p class="section-lead fade-in">若手の会の活動に関心をお持ちの方は、お気軽にお問い合わせください。</p>
+              <div class="cta-links fade-in">
+                      <a href="https://twitter.com/" class="cta-link cta-link--primary" target="_blank">𝕏 フォローする</a>a>
+                      <a href="mailto:example@example.com" class="cta-link cta-link--outline">✉ お問い合わせ</a>a>
+                      <a href="#" class="cta-link cta-link--outline">📰 ニュースレター</a>a>
+              </div>div>
+        </div>div>
+    </section>section>
+  
+    <footer>
+          <div class="footer-inner">
+                  <img src="logo.png" alt="MS9 若手の会" class="footer-logo">
+                  <p>
+                            &copy; 2025 MS9 若手の会 — ムーンショット目標9「こころの仕組み」若手研究者ネットワーク<br>
+                            Supported by <a href="https://www.jst.go.jp/moonshot/" target="_blank">JST Moonshot R&amp;D Program</a>a>
+                  </p>p>
+          </div>div>
+    </footer>
+
+      <script>
+            const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                              if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+                    });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+      </script>
+
+  </body>
+</html>html>
+      </script>
+    </footer></p></p></em></h1></li></li></span>
+      </nav>
+  </body>
+    </style></title>
+  </head>
