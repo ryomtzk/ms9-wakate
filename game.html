@@ -10,10 +10,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0a1a;--surface:#14142b;--card:#1e1e3a;--primary:#ff6b9d;--secondary:#c084fc;--accent:#22d3ee;--warning:#fbbf24;--text:#f0f0ff;--text-dim:#8888aa;--radius:16px;--glow-primary:0 0 30px rgba(255,107,157,0.3);--glow-accent:0 0 30px rgba(34,211,238,0.3)}
+:root{--bg:#fff5f7;--surface:#fff0f3;--card:#ffffff;--primary:#e11d48;--secondary:#f43f5e;--accent:#be123c;--warning:#fbbf24;--text:#1a1a2e;--text-dim:#6b7280;--radius:16px;--glow-primary:0 4px 20px rgba(225,29,72,0.15);--glow-accent:0 4px 20px rgba(190,18,60,0.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Zen Maru Gothic','M PLUS Rounded 1c',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(255,107,157,0.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(192,132,252,0.08) 0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(34,211,238,0.05) 0%,transparent 60%);pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(244,63,94,0.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(225,29,72,0.04) 0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(251,113,133,0.03) 0%,transparent 60%);pointer-events:none;z-index:0}
 .container{max-width:680px;margin:0 auto;padding:20px;position:relative;z-index:1}
 .header{text-align:center;padding:20px 0 10px}
 .header-badge{display:inline-block;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;letter-spacing:0.05em;margin-bottom:8px}
@@ -21,61 +21,67 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .header p{color:var(--text-dim);font-size:14px;margin-top:6px}
 .screen{display:none}.screen.active{display:block;animation:fadeIn 0.4s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.start-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;text-align:center;border:1px solid rgba(255,255,255,0.06);margin-top:16px}
+.start-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;text-align:center;border:1px solid rgba(225,29,72,0.08);margin-top:16px;box-shadow:0 2px 16px rgba(225,29,72,0.06)}
 .start-card .emoji-hero{font-size:56px;margin-bottom:12px}
-.start-card h2{font-size:20px;font-weight:900;margin-bottom:10px}
+.start-card h2{font-size:20px;font-weight:900;margin-bottom:10px;color:var(--primary)}
 .start-card p{color:var(--text-dim);font-size:14px;line-height:1.7;margin-bottom:20px}
 .rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
-.rule-item{background:rgba(255,255,255,0.03);border-radius:12px;padding:14px 10px;text-align:center}
+.rule-item{background:var(--surface);border-radius:12px;padding:14px 10px;text-align:center}
 .rule-item .rule-icon{font-size:24px;margin-bottom:6px}
 .rule-item .rule-text{font-size:12px;color:var(--text-dim);line-height:1.5}
 .btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;border:none;padding:14px 40px;border-radius:50px;font-family:inherit;font-size:16px;font-weight:900;cursor:pointer;transition:all 0.2s;box-shadow:var(--glow-primary)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(255,107,157,0.5)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(225,29,72,0.3)}
 .btn-primary:active{transform:translateY(0)}
-.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,0.08);color:var(--text);border:1px solid rgba(255,255,255,0.1);padding:12px 28px;border-radius:50px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
-.btn-secondary:hover{background:rgba(255,255,255,0.12);transform:translateY(-1px)}
+.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(225,29,72,0.06);color:var(--primary);border:1px solid rgba(225,29,72,0.15);padding:12px 28px;border-radius:50px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.btn-secondary:hover{background:rgba(225,29,72,0.1);transform:translateY(-1px)}
+.btn-ms9{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#be123c,#e11d48,#f43f5e);color:white;border:none;padding:18px 36px;border-radius:50px;font-family:inherit;font-size:17px;font-weight:900;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 24px rgba(225,29,72,0.25);width:100%;max-width:400px;text-decoration:none;letter-spacing:0.03em}
+.btn-ms9:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(225,29,72,0.35)}
 .game-hud{display:flex;justify-content:space-between;align-items:center;padding:12px 0;margin-bottom:10px}
 .hud-item{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700}
 .hud-item .hud-icon{font-size:18px}
 .round-dots{display:flex;gap:6px}
-.round-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all 0.3s}
-.round-dot.done{background:var(--accent);box-shadow:0 0 8px rgba(34,211,238,0.5)}
-.round-dot.current{background:var(--primary);box-shadow:0 0 8px rgba(255,107,157,0.5);animation:pulse 1s infinite}
+.round-dot{width:10px;height:10px;border-radius:50%;background:rgba(225,29,72,0.15);transition:all 0.3s}
+.round-dot.done{background:var(--primary);box-shadow:0 0 8px rgba(225,29,72,0.3)}
+.round-dot.current{background:var(--secondary);box-shadow:0 0 8px rgba(244,63,94,0.4);animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
-.game-canvas-wrapper{position:relative;background:var(--card);border-radius:var(--radius);overflow:hidden;border:2px solid rgba(255,255,255,0.08);aspect-ratio:4/3;cursor:crosshair}
+.game-canvas-wrapper{position:relative;background:var(--card);border-radius:var(--radius);overflow:hidden;border:2px solid rgba(225,29,72,0.1);aspect-ratio:4/3;cursor:crosshair;box-shadow:0 2px 16px rgba(225,29,72,0.06)}
 .game-canvas-wrapper canvas{width:100%;height:100%;display:block}
-.timer-bar{position:absolute;bottom:0;left:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--primary));transition:width 0.1s linear;border-radius:0 2px 0 0}
+.timer-bar{position:absolute;bottom:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--secondary));transition:width 0.1s linear;border-radius:0 2px 0 0}
 .hint-text{text-align:center;color:var(--text-dim);font-size:13px;margin-top:10px;min-height:20px}
-.flicker-overlay{position:absolute;inset:0;background:#888;opacity:0;pointer-events:none;z-index:2}
-.found-ring{position:absolute;border:3px solid var(--accent);border-radius:50%;pointer-events:none;z-index:3;animation:ringExpand 0.6s ease forwards}
+.flicker-overlay{position:absolute;inset:0;background:#ccc;opacity:0;pointer-events:none;z-index:2}
+.found-ring{position:absolute;border:3px solid var(--primary);border-radius:50%;pointer-events:none;z-index:3;animation:ringExpand 0.6s ease forwards}
 @keyframes ringExpand{0%{transform:translate(-50%,-50%) scale(0.5);opacity:1}100%{transform:translate(-50%,-50%) scale(1.5);opacity:0}}
-.round-result-card{background:var(--card);border-radius:var(--radius);padding:28px 24px;text-align:center;border:1px solid rgba(255,255,255,0.06);margin-top:16px}
+.round-result-card{background:var(--card);border-radius:var(--radius);padding:28px 24px;text-align:center;border:1px solid rgba(225,29,72,0.08);margin-top:16px;box-shadow:0 2px 16px rgba(225,29,72,0.06)}
 .round-result-card .result-emoji{font-size:48px;margin-bottom:8px}
-.round-result-card h3{font-size:20px;font-weight:900;margin-bottom:4px}
-.result-time{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:8px 0}
-.trivia-box{background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.15);border-radius:12px;padding:16px;margin:16px 0;text-align:left}
-.trivia-box .trivia-label{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
+.round-result-card h3{font-size:20px;font-weight:900;margin-bottom:4px;color:var(--primary)}
+.result-time{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:8px 0}
+.trivia-box{background:var(--surface);border:1px solid rgba(225,29,72,0.1);border-radius:12px;padding:16px;margin:16px 0;text-align:left}
+.trivia-box .trivia-label{font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
 .trivia-box .trivia-text{font-size:13px;color:var(--text);line-height:1.7}
-.final-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;text-align:center;border:1px solid rgba(255,255,255,0.06);margin-top:16px}
+.intro-box{background:linear-gradient(135deg,rgba(225,29,72,0.04),rgba(244,63,94,0.06));border:1px solid rgba(225,29,72,0.12);border-radius:12px;padding:18px;margin-bottom:20px;text-align:left}
+.intro-box .intro-label{font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
+.intro-box .intro-text{font-size:13px;color:var(--text);line-height:1.8}
+.intro-box strong{color:var(--primary)}
+.final-card{background:var(--card);border-radius:var(--radius);padding:32px 24px;text-align:center;border:1px solid rgba(225,29,72,0.08);margin-top:16px;box-shadow:0 2px 16px rgba(225,29,72,0.06)}
 .final-score{font-size:48px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:8px 0}
 .rank-badge{display:inline-block;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:700;margin:8px 0 16px}
 .rank-s{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1a2e}
 .rank-a{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white}
-.rank-b{background:linear-gradient(135deg,var(--accent),#06b6d4);color:#1a1a2e}
-.rank-c{background:rgba(255,255,255,0.12);color:var(--text-dim)}
+.rank-b{background:linear-gradient(135deg,#fb7185,#f43f5e);color:white}
+.rank-c{background:rgba(225,29,72,0.08);color:var(--text-dim)}
 .score-breakdown{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:16px 0}
-.score-round{background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 4px;font-size:11px}
+.score-round{background:var(--surface);border-radius:10px;padding:10px 4px;font-size:11px}
 .score-round .sr-label{color:var(--text-dim);margin-bottom:4px}
-.score-round .sr-time{font-weight:900;font-size:14px}
+.score-round .sr-time{font-weight:900;font-size:14px;color:var(--primary)}
 .btn-group{display:flex;flex-direction:column;gap:10px;margin-top:20px;align-items:center}
-.btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#1da1f2;color:white;border:none;padding:14px 32px;border-radius:50px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;max-width:300px}
-.btn-share:hover{background:#1a8cd8;transform:translateY(-2px)}
+.btn-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#1a1a2e;color:white;border:none;padding:14px 32px;border-radius:50px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;max-width:300px}
+.btn-share:hover{background:#2d2d4e;transform:translateY(-2px)}
 .footer{text-align:center;padding:24px 0;color:var(--text-dim);font-size:11px;line-height:1.7}
-.footer a{color:var(--secondary);text-decoration:none}
+.footer a{color:var(--primary);text-decoration:none}
 .footer a:hover{text-decoration:underline}
 .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-dim);text-decoration:none;font-size:13px;font-weight:700;margin-bottom:8px;transition:color 0.2s}
-.back-link:hover{color:var(--text)}
-@media(max-width:480px){.container{padding:12px}.rules-grid{grid-template-columns:1fr}.score-breakdown{grid-template-columns:repeat(5,1fr);gap:4px}.score-round .sr-time{font-size:12px}}
+.back-link:hover{color:var(--primary)}
+@media(max-width:480px){.container{padding:12px}.rules-grid{grid-template-columns:1fr}.score-breakdown{grid-template-columns:repeat(5,1fr);gap:4px}.score-round .sr-time{font-size:12px}.btn-ms9{font-size:15px;padding:16px 28px}}
 </style>
 </head>
 <body>
@@ -86,9 +92,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <h1>変化盲チャレンジ</h1>
 <p>あなたの目は、どこまで見えてる？</p>
 </div>
+
 <div id="screen-start" class="screen active">
 <div class="start-card">
 <div class="emoji-hero">👁️‍🗨️</div>
+<div class="intro-box">
+<div class="intro-label">🔬 ムーンショット目標9「こころ」× 変化盲</div>
+<div class="intro-text">私たちは「世界をそのまま見ている」と思っていませんか？<br>
+<strong>ムーンショット目標9</strong>は、人間の<strong>「こころの仕組み」</strong>を科学的に解明し、心の安らぎや活力を増大させることを目指す研究プロジェクトです。<br>
+<strong>変化盲（Change Blindness）</strong>は、脳が世界をありのままに認識しているわけではないことを示す代表的な現象のひとつ。このゲームで、あなた自身の「こころのフィルター」を体験してみましょう！</div>
+</div>
 <h2>ルール</h2>
 <p>画面がチカチカ切り替わります。<br>その中に隠れた「変化」を見つけてタップ！</p>
 <div class="rules-grid">
@@ -100,6 +113,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <button class="btn-primary" onclick="startGame()">チャレンジ開始 ▶</button>
 </div>
 </div>
+
 <div id="screen-game" class="screen">
 <div class="game-hud">
 <div class="hud-item"><span class="hud-icon">⏱️</span><span id="hud-timer">0.0秒</span></div>
@@ -113,6 +127,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 </div>
 <div class="hint-text" id="hint-text">どこかが変わっています…見つけてタップ！</div>
 </div>
+
 <div id="screen-round-result" class="screen">
 <div class="round-result-card">
 <div class="result-emoji" id="rr-emoji">🎉</div>
@@ -122,30 +137,35 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <button class="btn-primary" id="rr-next-btn" onclick="nextRound()">次のラウンドへ ▶</button>
 </div>
 </div>
+
 <div id="screen-final" class="screen">
 <div class="final-card">
 <div style="font-size:48px;margin-bottom:4px">🏆</div>
-<h2>結果発表</h2>
+<h2 style="color:var(--primary)">結果発表</h2>
 <div class="final-score" id="final-total"></div>
 <div id="final-rank-badge" class="rank-badge rank-a"></div>
 <p id="final-comment" style="color:var(--text-dim);font-size:14px;margin-bottom:12px"></p>
 <div class="score-breakdown" id="score-breakdown"></div>
 <div class="trivia-box" style="margin-top:16px">
-<div class="trivia-label">🔬 変化盲とは？</div>
-<div class="trivia-text">変化盲（Change Blindness）は、視覚的なシーンの中で起きた大きな変化に気づかない現象です。私たちは「自分は世界をちゃんと見ている」と思い込んでいますが、実は脳が処理できる情報はごくわずか。注意を向けていない場所の変化は、驚くほど見落とします。この現象は1990年代にRensinkらの研究で広く知られるようになりました。</div>
+<div class="trivia-label">🔬 変化盲と「こころ」の科学</div>
+<div class="trivia-text">変化盲（Change Blindness）は、視覚シーンの大きな変化に気づかない現象です。これは私たちの脳が世界のすべてを処理しているわけではなく、注意というフィルターを通して<strong>「こころが世界を再構成している」</strong>ことを示しています。<br><br>ムーンショット目標9「こころの安らぎや活力を増大するための研究開発」では、このような認知メカニズムの解明を通じて、人間の心の仕組みを深く理解し、こころの豊かさやウェルビーイングを高める科学的基盤の構築を目指しています。変化盲の研究は、「私たちが主観的に経験する世界」と「実際の物理的世界」のギャップを明らかにする、こころの科学の入口です。</div>
 </div>
 <div class="btn-group">
+<a href="https://www.jst.go.jp/moonshot/program/goal9/" target="_blank" class="btn-ms9">🧠 ムーンショット目標9をもっと知る →</a>
 <button class="btn-share" onclick="shareResult()">𝕏 で結果をシェア</button>
 <button class="btn-primary" onclick="restartGame()">もう一度チャレンジ 🔄</button>
 <button class="btn-secondary" onclick="showScreen('screen-start')">トップに戻る</button>
 </div>
 </div>
 </div>
+
 <div class="footer">
 <p>🧠 ムーンショット目標9「こころの安らぎや活力を増大するための研究開発」若手の会</p>
+<p style="margin-top:4px"><a href="https://www.jst.go.jp/moonshot/program/goal9/" target="_blank">ムーンショット目標9について詳しく見る →</a></p>
 <p style="margin-top:4px">変化盲の科学をもっと知りたい方は → <a href="https://en.wikipedia.org/wiki/Change_blindness" target="_blank">Change Blindness (Wikipedia)</a></p>
 </div>
 </div>
+
 <script>
 var TOTAL_ROUNDS=5,MAX_TIME=45,FLICKER_ON=600,FLICKER_OFF=200;
 var currentRound=0,roundTimes=[],timerStart=0,timerInterval=null,flickerInterval=null;
@@ -157,7 +177,6 @@ function rand(a,b){return Math.random()*(b-a)+a}
 function randInt(a,b){return Math.floor(rand(a,b+1))}
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
 var sceneGenerators=[generateLivingRoom,generateGarden,generateAquarium,generateSkyScene,generateDesktop,generateKitchen,generatePark,generateSpace];
-
 function generateLivingRoom(){
 var o=[];
 o.push({type:'rect',x:0,y:canvasH*0.65,w:canvasW,h:canvasH*0.35,color:'#8B7355',changeable:false});
@@ -285,6 +304,7 @@ var uf=pick(COLOR_NAMES);o.push({type:'circle',x:canvasW*0.5,y:canvasH*0.1,radiu
 o.push({type:'roundRect',x:canvasW*0.44,y:canvasH*0.1,w:55,h:12,r:6,color:'#aaa',changeable:false});
 return selectChangeTarget(o);
 }
+  
 function selectChangeTarget(objects){
 var changeables=[];
 for(var i=0;i<objects.length;i++){if(objects[i].changeable){var o=Object.assign({},objects[i]);o._index=i;changeables.push(o)}}
@@ -331,6 +351,7 @@ var triviaList=[
 "スマートフォンを見ながら歩く「歩きスマホ」中は、変化盲がさらに顕著になります。注意資源が画面に奪われ、周囲の大きな変化にも気づかなくなります。",
 "Rensinkら（1997）の「フリッカーパラダイム」は、まさにこのゲームと同じ手法です。2つの画像の間にブランク画面を挟むと、驚くほど変化に気づけなくなります。"
 ];
+  
 function showScreen(id){var screens=document.querySelectorAll('.screen');for(var i=0;i<screens.length;i++){screens[i].classList.remove('active')}document.getElementById(id).classList.add('active')}
 function startGame(){currentRound=0;roundTimes=[];startRound()}
 function restartGame(){startGame()}
@@ -378,7 +399,11 @@ function endRound(time){
 clearInterval(timerInterval);clearInterval(flickerInterval);
 var roundTime=Math.min(time,MAX_TIME);roundTimes.push(roundTime);showScreen('screen-round-result');
 var emoji,title;
-if(roundTime<3){emoji='⚡';title='神速！'} else if(roundTime<5){emoji='🎉';title='すばらしい！'} else if(roundTime<7){emoji='👍';title='見つけた！'} else if(roundTime<30){emoji='😅';title='なんとか発見！'} else{emoji='😵';title='時間切れ…'}
+if(roundTime<3){emoji='⚡';title='神速！'}
+else if(roundTime<5){emoji='🎉';title='すばらしい！'}
+else if(roundTime<7){emoji='👍';title='見つけた！'}
+else if(roundTime<30){emoji='😅';title='なんとか発見！'}
+else{emoji='😵';title='時間切れ…'}
 document.getElementById('rr-emoji').textContent=emoji;
 document.getElementById('rr-title').textContent=title;
 document.getElementById('rr-time').textContent=roundTime.toFixed(1)+'秒';
@@ -394,7 +419,10 @@ showScreen('screen-final');
 var total=roundTimes.reduce(function(a,b){return a+b},0);var avg=total/TOTAL_ROUNDS;
 document.getElementById('final-total').textContent='合計 '+total.toFixed(1)+'秒';
 var rank,rankClass,comment;
-if(avg<3){rank='S ランク：変化盲マスター';rankClass='rank-s';comment='驚異的な観察力です！認知科学者も驚くレベル。あなたは上位10%の検出速度です。'} else if(avg<5){rank='A ランク：鋭い目の持ち主';rankClass='rank-a';comment='素晴らしい観察力！平均より速く変化を見つけられています。'} else if(avg<7){rank='B ランク：なかなかの観察者';rankClass='rank-b';comment='まずまずの結果。変化盲は誰にでも起こる現象なので心配いりません。'} else{rank='C ランク：変化盲体験者';rankClass='rank-c';comment='これぞ変化盲の威力！でも安心してください、これが人間の脳の正常な仕組みです。'}
+if(avg<3){rank='S ランク：変化盲マスター';rankClass='rank-s';comment='驚異的な観察力です！認知科学者も驚くレベル。あなたは上位10%の検出速度です。'}
+else if(avg<5){rank='A ランク：鋭い目の持ち主';rankClass='rank-a';comment='素晴らしい観察力！平均より速く変化を見つけられています。'}
+else if(avg<7){rank='B ランク：なかなかの観察者';rankClass='rank-b';comment='まずまずの結果。変化盲は誰にでも起こる現象なので心配いりません。'}
+else{rank='C ランク：変化盲体験者';rankClass='rank-c';comment='これぞ変化盲の威力！でも安心してください、これが人間の脳の正常な仕組みです。'}
 var badge=document.getElementById('final-rank-badge');badge.textContent=rank;badge.className='rank-badge '+rankClass;
 document.getElementById('final-comment').textContent=comment;
 var bd=document.getElementById('score-breakdown');bd.innerHTML='';
