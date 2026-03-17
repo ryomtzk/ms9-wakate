@@ -378,7 +378,7 @@ function endRound(time){
 clearInterval(timerInterval);clearInterval(flickerInterval);
 var roundTime=Math.min(time,MAX_TIME);roundTimes.push(roundTime);showScreen('screen-round-result');
 var emoji,title;
-if(roundTime<4){emoji='⚡';title='神速！'} else if(roundTime<8){emoji='🎉';title='すばらしい！'} else if(roundTime<15){emoji='👍';title='見つけた！'} else if(roundTime<30){emoji='😅';title='なんとか発見！'} else{emoji='😵';title='時間切れ…'}
+if(roundTime<3){emoji='⚡';title='神速！'} else if(roundTime<5){emoji='🎉';title='すばらしい！'} else if(roundTime<7){emoji='👍';title='見つけた！'} else if(roundTime<30){emoji='😅';title='なんとか発見！'} else{emoji='😵';title='時間切れ…'}
 document.getElementById('rr-emoji').textContent=emoji;
 document.getElementById('rr-title').textContent=title;
 document.getElementById('rr-time').textContent=roundTime.toFixed(1)+'秒';
@@ -394,7 +394,7 @@ showScreen('screen-final');
 var total=roundTimes.reduce(function(a,b){return a+b},0);var avg=total/TOTAL_ROUNDS;
 document.getElementById('final-total').textContent='合計 '+total.toFixed(1)+'秒';
 var rank,rankClass,comment;
-if(avg<5){rank='S ランク：変化盲マスター';rankClass='rank-s';comment='驚異的な観察力です！認知科学者も驚くレベル。あなたは上位10%の検出速度です。'} else if(avg<10){rank='A ランク：鋭い目の持ち主';rankClass='rank-a';comment='素晴らしい観察力！平均より速く変化を見つけられています。'} else if(avg<20){rank='B ランク：なかなかの観察者';rankClass='rank-b';comment='まずまずの結果。変化盲は誰にでも起こる現象なので心配いりません。'} else{rank='C ランク：変化盲体験者';rankClass='rank-c';comment='これぞ変化盲の威力！でも安心してください、これが人間の脳の正常な仕組みです。'}
+if(avg<3){rank='S ランク：変化盲マスター';rankClass='rank-s';comment='驚異的な観察力です！認知科学者も驚くレベル。あなたは上位10%の検出速度です。'} else if(avg<5){rank='A ランク：鋭い目の持ち主';rankClass='rank-a';comment='素晴らしい観察力！平均より速く変化を見つけられています。'} else if(avg<7){rank='B ランク：なかなかの観察者';rankClass='rank-b';comment='まずまずの結果。変化盲は誰にでも起こる現象なので心配いりません。'} else{rank='C ランク：変化盲体験者';rankClass='rank-c';comment='これぞ変化盲の威力！でも安心してください、これが人間の脳の正常な仕組みです。'}
 var badge=document.getElementById('final-rank-badge');badge.textContent=rank;badge.className='rank-badge '+rankClass;
 document.getElementById('final-comment').textContent=comment;
 var bd=document.getElementById('score-breakdown');bd.innerHTML='';
